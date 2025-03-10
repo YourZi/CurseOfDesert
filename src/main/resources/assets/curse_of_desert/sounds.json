@@ -1,0 +1,38 @@
+{
+   "mummy_ambient": {
+     "category":"entity",
+     "subtitle": "sounds.curse_of_desert.mummy_ambient",
+     "sounds": [
+       "curse_of_desert:entity/mummy/mummy_idle1",
+       "curse_of_desert:entity/mummy/mummy_idle2",
+       "curse_of_desert:entity/mummy/mummy_idle3"
+     ]
+   },
+   "mummy_hurt": {
+      "category":"entity",
+      "subtitle": "sounds.curse_of_desert.mummy_hurt",
+      "sounds": [
+        "curse_of_desert:entity/mummy/mummy_hurt1",
+        "curse_of_desert:entity/mummy/mummy_hurt2"
+      ]
+    },
+   "mummy_death": {
+      "category":"entity",
+      "subtitle": "sounds.curse_of_desert.mummy_death",
+      "sounds": [
+        "curse_of_desert:entity/mummy/mummy_death1",
+        "curse_of_desert:entity/mummy/mummy_death2"
+      ]
+    },
+   "mummy_step": {
+      "category":"entity",
+      "subtitle": "sounds.curse_of_desert.mummy_step",
+      "sounds": [
+        "curse_of_desert:entity/mummy/mummy_step1",
+        "curse_of_desert:entity/mummy/mummy_step2",
+        "curse_of_desert:entity/mummy/mummy_step3",
+        "curse_of_desert:entity/mummy/mummy_step4",
+        "curse_of_desert:entity/mummy/mummy_step5"
+      ]
+    }
+}

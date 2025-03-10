@@ -1,0 +1,12 @@
+{
+    "entity.curse_of_desert.mummy":"木乃伊",
+
+    "sounds.curse_of_desert.mummy_hurt":"木乃伊：受伤",
+    "sounds.curse_of_desert.mummy_ambient":"木乃伊：低吼",
+    "sounds.curse_of_desert.mummy_death":"木乃伊：死亡",
+    "sounds.curse_of_desert.mummy_step":"脚步声",
+
+    "item.curse_of_desert.mummy_spawn_egg":"木乃伊刷怪蛋",
+
+    "curse_of_desert.creativetab.base":"沙漠诅咒"
+}
