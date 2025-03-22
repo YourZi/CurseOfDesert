@@ -1,10 +1,12 @@
 package top.yourzi.curse_of_desert.Entities.ai;
 
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
 import top.yourzi.curse_of_desert.Entities.Mummy.Mummy;
+import top.yourzi.curse_of_desert.init.ModEffect;
 
 public class MummyAttackGoal extends MeleeAttackGoal {
     private final Mummy entity;
@@ -81,6 +83,16 @@ public class MummyAttackGoal extends MeleeAttackGoal {
         if (target != null && target.isAlive()) {
             this.entity.swing(InteractionHand.MAIN_HAND);
             this.entity.doHurtTarget(target);
+
+            // 只有在主手没有物品时才添加萎缩效果
+            if (this.entity.getMainHandItem().isEmpty()) {
+                // 根据游戏难度计算萎缩效果持续时间
+                int difficultyValue = this.entity.level().getDifficulty().getId();
+                int duration = 7 * difficultyValue * 20; // 转换为游戏刻
+
+                // 给目标添加萎缩效果
+                target.addEffect(new MobEffectInstance(ModEffect.ATROPHY.get(), duration));
+            }
         }
     }
 

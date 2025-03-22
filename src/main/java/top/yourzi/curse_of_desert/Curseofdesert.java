@@ -10,6 +10,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import org.slf4j.Logger;
 import top.yourzi.curse_of_desert.init.ModCreativeTab;
+import top.yourzi.curse_of_desert.init.ModEffect;
 import top.yourzi.curse_of_desert.init.ModEntities;
 import top.yourzi.curse_of_desert.init.ModItems;
 import top.yourzi.curse_of_desert.init.ModSounds;
@@ -33,6 +34,7 @@ public class Curseofdesert {
         ModSounds.register(modEventBus);
         ModCreativeTab.register(modEventBus);
         ModItems.register(modEventBus);
+        ModEffect.register(modEventBus);
 
     }
 

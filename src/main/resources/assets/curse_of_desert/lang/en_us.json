@@ -1,3 +1,13 @@
 {
     "entity.curse_of_desert.mummy":"Mummy",
+
+    "sounds.curse_of_desert.mummy_hurt":"Mummy: Hurt",
+    "sounds.curse_of_desert.mummy_ambient":"Mummy: Growl",
+    "sounds.curse_of_desert.mummy_death":"Mummy: Death",
+    "sounds.curse_of_desert.mummy_step":"Footsteps",
+
+    "item.curse_of_desert.mummy_spawn_egg":"Mummy Spawn Egg",
+
+    "curse_of_desert.creativetab.base":"Curse of Desert",
+    "mob_effect.curse_of_desert.atrophy":"Atrophy"
 }
