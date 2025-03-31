@@ -1,13 +1,42 @@
 {
     "entity.curse_of_desert.mummy":"木乃伊",
+    "entity.curse_of_desert.scarab_beetle":"圣甲虫",
+    "entity.curse_of_desert.bitumen_mummy":"沥青木乃伊",
+    "entity.curse_of_desert.bitumen":"沥青",
 
+    "block.curse_of_desert.bitumen_bottle":"大型沥青瓶",
+
+    
+
+
+    "sounds.curse_of_desert.bottle_placed":"瓶子：放置",
+    "sounds.curse_of_desert.bottle_break":"瓶子：破碎",
     "sounds.curse_of_desert.mummy_hurt":"木乃伊：受伤",
     "sounds.curse_of_desert.mummy_ambient":"木乃伊：低吼",
     "sounds.curse_of_desert.mummy_death":"木乃伊：死亡",
     "sounds.curse_of_desert.mummy_step":"脚步声",
 
     "item.curse_of_desert.mummy_spawn_egg":"木乃伊刷怪蛋",
+    "item.curse_of_desert.scarab_beetle_spawn_egg":"圣甲虫刷怪蛋",
+    "item.curse_of_desert.bitumen_mummy_spawn_egg":"沥青木乃伊刷怪蛋",
+    "item.curse_of_desert.bitumen_bottle_item":"沥青瓶",
 
-    "curse_of_desert.creativetab.base":"沙漠诅咒",
-    "mob_effect.curse_of_desert.atrophy":"萎缩"
+    "item.curse_of_desert.sand_eye":"蒙沙之眼",
+
+    "message.curse_of_desert.sand_eye.invalid_location":"似乎没有得到回应...",
+
+    "curse_of_desert.creativetab.base":"狂沙之咒",
+    "effect.curse_of_desert.atrophy":"萎缩",
+    "effect.curse_of_desert.pharaoh_gaze":"法老凝视",
+
+    "event.curse_of_desert.name":"狂沙之咒",
+    "event.curse_of_desert.wave_start":"第%s波开始",
+    "event.curse_of_desert.success":"事件成功！",
+    "event.curse_of_desert.fail":"事件失败！",
+
+    "commands.curseofdesert.start.error.not_player":"该命令只能由玩家执行",
+    "commands.curseofdesert.start.error.already_active":"已有一个事件正在进行中",
+    "commands.curseofdesert.start.success":"狂沙之咒事件已开始",
+    "commands.curseofdesert.stop.error.not_active":"没有正在进行的事件可以停止",
+    "commands.curseofdesert.stop.success":"狂沙之咒事件已停止"
 }

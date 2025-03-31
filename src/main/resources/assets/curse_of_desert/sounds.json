@@ -1,4 +1,19 @@
 {
+  "bottle_break": {
+    "category":"block",
+    "subtitle": "sounds.curse_of_desert.bottle_break",
+    "sounds": [
+      "curse_of_desert:block/bitumen_bottle/bottle_break"
+    ]
+  },
+  "bottle_placed": {
+    "category":"block",
+    "subtitle": "sounds.curse_of_desert.bottle_placed",
+    "sounds": [
+      "curse_of_desert:block/bitumen_bottle/bottle_placed1",
+      "curse_of_desert:block/bitumen_bottle/bottle_placed2"
+    ]
+  },
    "mummy_ambient": {
      "category":"entity",
      "subtitle": "sounds.curse_of_desert.mummy_ambient",

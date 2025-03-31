@@ -1,13 +1,41 @@
 {
     "entity.curse_of_desert.mummy":"Mummy",
+    "entity.curse_of_desert.scarab_beetle":"Scarab Beetle",
+    "entity.curse_of_desert.bitumen_mummy":"Bitumen Mummy",
+    "entity.curse_of_desert.bitumen":"Bitumen",
 
+    "block.curse_of_desert.bitumen_bottle":"Large Bitumen Bottle",
+
+
+
+    "sounds.curse_of_desert.bottle_placed":"Bottle: Placed",
+    "sounds.curse_of_desert.bottle_break":"Bottle: Break",
     "sounds.curse_of_desert.mummy_hurt":"Mummy: Hurt",
     "sounds.curse_of_desert.mummy_ambient":"Mummy: Growl",
     "sounds.curse_of_desert.mummy_death":"Mummy: Death",
     "sounds.curse_of_desert.mummy_step":"Footsteps",
 
     "item.curse_of_desert.mummy_spawn_egg":"Mummy Spawn Egg",
+    "item.curse_of_desert.scarab_beetle_spawn_egg":"Scarab Beetle Spawn Egg",
+    "item.curse_of_desert.bitumen_mummy_spawn_egg":"Bitumen Mummy Spawn Egg",
+    "item.curse_of_desert.bitumen_bottle_item":"Bitumen Bottle",
+
+    "item.curse_of_desert.sand_eye":"Sand Eye",
+
+    "message.curse_of_desert.sand_eye.invalid_location":"Nothing happened...",
 
     "curse_of_desert.creativetab.base":"Curse of Desert",
-    "mob_effect.curse_of_desert.atrophy":"Atrophy"
+    "mob_effect.curse_of_desert.atrophy":"Atrophy",
+    "mob_effect.curse_of_desert.pharaoh_gaze":"Pharaoh's Gaze",
+
+    "event.curse_of_desert.name":"Curse of Desert",
+    "event.curse_of_desert.wave_start":"Wave %s Started",
+    "event.curse_of_desert.success":"SUCCESS",
+    "event.curse_of_desert.fail":"FAILED",
+
+    "commands.curseofdesert.start.error.not_player":"This command can only be executed by a player",
+    "commands.curseofdesert.start.error.already_active":"An event is already active",
+    "commands.curseofdesert.start.success":"Desert Curse event started",
+    "commands.curseofdesert.stop.error.not_active":"No active event to stop",
+    "commands.curseofdesert.stop.success":"Desert Curse event stopped"
 }
