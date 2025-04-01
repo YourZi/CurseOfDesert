@@ -11,7 +11,7 @@
 `[■■■■□□□□□□] 40%`
 
 ## 📜 许可证/License
-本模组采用 [MIT License](LICENSE)
+[MIT License](LICENSE)
 
-> Art Designer: 雨降小僧/r_a_in
+`Art Designer: 雨降小僧/r_a_in`
 
