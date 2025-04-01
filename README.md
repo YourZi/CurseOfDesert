@@ -1,5 +1,7 @@
 # Curse of Desert/狂沙之咒
 
+*****
+
 ![Mod Status](https://img.shields.io/badge/Status-Developing-yellow) 
 ![Minecraft Version](https://img.shields.io/badge/Minecraft-1.20.1-blueviolet)
 ![License](https://img.shields.io/badge/License-MIT-blue)
