@@ -10,7 +10,7 @@
 ## 🛠️ 开发进度/Development Progress
 <div align="left">
   <div style="background: #2e2e2e; border-radius: 8px; height: 16px; width: 300px">
-    <div style="background: #FFBFF00; border-radius: 8px; height: 100%; width: 50%"></div>
+    <div style="background: #FFBF00; border-radius: 8px; height: 100%; width: 50%"></div>
   </div>
 </div>
 
