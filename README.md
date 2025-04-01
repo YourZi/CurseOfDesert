@@ -13,3 +13,5 @@
 ## 📜 许可证/License
 本模组采用 [MIT License](LICENSE)
 
+> 美术/Art Designer: 雨降小僧/r_a_in
+
