@@ -8,11 +8,7 @@
 > A desert-themed Minecraft mod currently in development, adding raid-style desert monster events to bring new challenges and opportunities to your desert adventures!
 
 ## 🛠️ 开发进度/Development Progress
-<div align="left">
-  <div style="background: #2e2e2e; border-radius: 8px; height: 16px; width: 300px">
-    <div style="background: #FFBF00; border-radius: 8px; height: 100%; width: 50%"></div>
-  </div>
-</div>
+▓▓▓▓▓▓░░░░░░ 
 
 ## 📜 许可证/License
 [MIT License](LICENSE)
