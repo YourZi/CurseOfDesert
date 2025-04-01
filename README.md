@@ -4,9 +4,12 @@
 ![Minecraft Version](https://img.shields.io/badge/Minecraft-1.20.1-blueviolet)
 
 > 一个正在开发中的沙漠主题Minecraft模组，添加了类原版袭击的沙漠怪物事件，为你的沙漠冒险带来全新的挑战与机遇！
+>
+> A desert-themed Minecraft mod currently in development, adding raid-style desert monster events to bring new challenges and opportunities to your desert adventures!
 
-## 🛠️ 开发进度
+## 🛠️ 开发进度/Development Progress
 `[■■■■□□□□□□] 40%`
 
-## 📜 许可证
+## 📜 许可证/License
 本模组采用 [MIT License](LICENSE)
+
