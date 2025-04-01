@@ -8,7 +8,7 @@
 > A desert-themed Minecraft mod currently in development, adding raid-style desert monster events to bring new challenges and opportunities to your desert adventures!
 
 ## 🛠️ 开发进度/Development Progress
-▓▓▓▓▓▓░░░░░░ 
+http://progressed.io/bar/53
 
 ## 📜 许可证/License
 [MIT License](LICENSE)
