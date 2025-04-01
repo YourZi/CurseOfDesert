@@ -1,7 +1,6 @@
 package top.yourzi.curse_of_desert.Entities.Mummy;
 
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -12,6 +11,10 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.*;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.animal.Turtle;
 import net.minecraft.world.entity.monster.*;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -19,14 +22,11 @@ import net.minecraft.world.item.Items;
 import net.minecraft.world.level.*;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-
-import top.yourzi.curse_of_desert.AttackEvent.CurseOfDesertEvent;
 import top.yourzi.curse_of_desert.Entities.ai.MummyAttackGoal;
 import top.yourzi.curse_of_desert.init.ModSounds;
-import top.yourzi.curse_of_desert.init.ModTags;
 
-public class Mummy extends Zombie {
-    public Mummy(EntityType<? extends Mummy> pEntityType, Level pLevel) {
+public class Mummy extends Husk {
+    public Mummy(EntityType<? extends Husk> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
         xpReward = 4;
     }
@@ -37,13 +37,10 @@ public class Mummy extends Zombie {
 
     public final AnimationState idle = new AnimationState();
     public final AnimationState walk = new AnimationState();
-    public final AnimationState walk_with_bottle = new AnimationState();
     public final AnimationState attack = new AnimationState();
-    public final AnimationState throwbottle = new AnimationState();
 
     private int idleAnimationTimeout = 0;
     public int attackAnimationTimeout = 0;
-    public boolean shouldPlayAttackAnimation = false;
 
     @Override
     public void tick() {
@@ -56,12 +53,11 @@ public class Mummy extends Zombie {
 
     public static AttributeSupplier.@NotNull Builder createAttributes() {
         return Monster.createMonsterAttributes()
-                .add(Attributes.FOLLOW_RANGE, (double)50.0F)
+                .add(Attributes.FOLLOW_RANGE, (double)35.0F)
                 .add(Attributes.MOVEMENT_SPEED, (double)0.23F)
                 .add(Attributes.ATTACK_DAMAGE, (double)5.0F)
                 .add(Attributes.ARMOR, (double)2.0F)
                 .add(Attributes.MAX_HEALTH, (double)30.0F)
-                .add(Attributes.ATTACK_KNOCKBACK, (double)0.5F)
                 .add(Attributes.SPAWN_REINFORCEMENTS_CHANCE, (double)0.0F);
 
     }
@@ -83,41 +79,25 @@ public class Mummy extends Zombie {
 
     @Override
     protected boolean isSunSensitive() {
-        // 检查是否在事件范围内
-        if (this.level() instanceof ServerLevel serverLevel) {
-            CurseOfDesertEvent event = top.yourzi.curse_of_desert.Events.CurseOfDesertEventHandler.getCurrentEvent();
-            if (event != null && event.isActive()) {
-                BlockPos eventCenter = event.getCenter();
-                // 检查是否在事件范围内（50格范围）
-                return this.blockPosition().distSqr(eventCenter) > 2500; // 50 * 50 = 2500
-            }
-        }
         return true;
     }
 
-    @Override
-    public boolean fireImmune() {
-        // 检查是否在事件范围内
-        if (this.level() instanceof ServerLevel serverLevel) {
-            CurseOfDesertEvent event = top.yourzi.curse_of_desert.Events.CurseOfDesertEventHandler.getCurrentEvent();
-            if (event != null && event.isActive()) {
-                BlockPos eventCenter = event.getCenter();
-                // 检查是否在事件范围内（50格范围）
-                return this.blockPosition().distSqr(eventCenter) <= 2500; // 50 * 50 = 2500
-            }
-        }
-        return super.fireImmune();
-    }
 
     @Override
     protected void registerGoals() {
-        super.registerGoals();
-        this.goalSelector.getAvailableGoals().removeIf(goal -> goal.getGoal() instanceof ZombieAttackGoal);
-        updateAttackGoals();
+        this.goalSelector.addGoal(8, new LookAtPlayerGoal(this, Player.class, 8.0F));
+        this.goalSelector.addGoal(8, new RandomLookAroundGoal(this));
+        this.addBehaviourGoals();
     }
 
-    private void updateAttackGoals() {
-        this.goalSelector.addGoal(1, new MummyAttackGoal(this, 1.0D, true));
+    @Override
+    protected void addBehaviourGoals() {
+        this.goalSelector.addGoal(1, new MummyAttackGoal(this, (double)1.2F, false));
+        this.goalSelector.addGoal(7, new WaterAvoidingRandomStrollGoal(this, (double)1.0F));
+        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, new Class[0])).setAlertOthers(new Class[]{Mummy.class}));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal(this, Player.class, true));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal(this, IronGolem.class, true));
+        this.targetSelector.addGoal(5, new NearestAttackableTargetGoal(this, Turtle.class, 10, true, false, Turtle.BABY_ON_LAND_SELECTOR));
     }
 
     private void setupAnimationStates() {
@@ -129,10 +109,14 @@ public class Mummy extends Zombie {
         }
 
         if(this.isAttacking() && attackAnimationTimeout <= 0) {
-            attackAnimationTimeout = 12;
+            attackAnimationTimeout = 14;
             attack.start(this.tickCount);
         } else {
             --this.attackAnimationTimeout;
+        }
+
+        if(!this.isAttacking()) {
+            attack.stop();
         }
     }
 
@@ -184,17 +168,6 @@ public class Mummy extends Zombie {
     public boolean killedEntity(ServerLevel pLevel, LivingEntity pEntity) {
         boolean flag = super.killedEntity(pLevel, pEntity);
         return flag;
-    }
-
-    @Override
-    public boolean doHurtTarget(Entity pEntity) {
-        if (pEntity instanceof LivingEntity livingEntity) {
-            // 检查攻击者是否带有沙漠诅咒事件标签
-            if (livingEntity.getType().is(ModTags.CURSE_OF_DESERT)) {
-                return false; // 如果攻击者带有标签，不进行反击
-            }
-        }
-        return super.doHurtTarget(pEntity);
     }
 
     @Override

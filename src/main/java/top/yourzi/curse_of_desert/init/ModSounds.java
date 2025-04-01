@@ -12,8 +12,6 @@ import static net.minecraftforge.registries.ForgeRegistries.SOUND_EVENTS;
 
 public class ModSounds {
     public static final DeferredRegister<SoundEvent> REGISTRY = DeferredRegister.create(SOUND_EVENTS, Curseofdesert.MOD_ID);
-
-
     public static final RegistryObject<SoundEvent> MUMMY_AMBIENT =
             registerSoundEvents("mummy_ambient");
     public static final RegistryObject<SoundEvent> MUMMY_DEATH =
@@ -22,11 +20,6 @@ public class ModSounds {
             registerSoundEvents("mummy_hurt");
     public static final RegistryObject<SoundEvent> MUMMY_STEP =
             registerSoundEvents("mummy_step");
-
-    public static final RegistryObject<SoundEvent> BOTTLE_PLACED =
-            registerSoundEvents("bottle_placed");
-    public static final RegistryObject<SoundEvent> BOTTLE_BREAK =
-            registerSoundEvents("bottle_break");
 
 
     private static RegistryObject<SoundEvent> registerSoundEvents(String name) {

@@ -8,16 +8,12 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.event.RegisterCommandsEvent;
 import org.slf4j.Logger;
-import top.yourzi.curse_of_desert.Commands.CurseOfDesertCommand;
-import top.yourzi.curse_of_desert.init.ModBlocks;
 import top.yourzi.curse_of_desert.init.ModCreativeTab;
 import top.yourzi.curse_of_desert.init.ModEffect;
 import top.yourzi.curse_of_desert.init.ModEntities;
 import top.yourzi.curse_of_desert.init.ModItems;
 import top.yourzi.curse_of_desert.init.ModSounds;
-import top.yourzi.curse_of_desert.init.ModTags;
 
 
 @Mod(Curseofdesert.MOD_ID)
@@ -34,19 +30,13 @@ public class Curseofdesert {
         CREATIVE_MODE_TABS.register(modEventBus);
         MinecraftForge.EVENT_BUS.register(this);
 
-        // 注册指令
-        MinecraftForge.EVENT_BUS.addListener(this::onCommandsRegister);
-
         ModEntities.register(modEventBus);
         ModSounds.register(modEventBus);
         ModCreativeTab.register(modEventBus);
         ModItems.register(modEventBus);
         ModEffect.register(modEventBus);
-        ModTags.register(modEventBus);
-        ModBlocks.register(modEventBus);
+
     }
 
-    private void onCommandsRegister(RegisterCommandsEvent event) {
-        CurseOfDesertCommand.register(event.getDispatcher());
-    }
+
 }

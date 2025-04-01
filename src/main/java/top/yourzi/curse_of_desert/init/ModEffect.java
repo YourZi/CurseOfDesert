@@ -16,9 +16,6 @@ public class ModEffect {
     public static final RegistryObject<MobEffect> ATROPHY = EFFECTS.register("atrophy",
             () -> new Atrophy());
 
-    public static final RegistryObject<MobEffect> PHARAOH_GAZE = EFFECTS.register("pharaoh_gaze",
-            () -> new PharaohGaze());
-
     public static void register(IEventBus eventBus) {
         EFFECTS.register(eventBus);
     }
