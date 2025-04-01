@@ -23,7 +23,7 @@ import top.yourzi.curse_of_desert.Entities.client.animation.MummyAnimation;
 public class MummyModel<T extends Entity> extends HierarchicalModel<T>{
     // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
     public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("curse_of_desert", "mummy"), "main");
-    private final ModelPart all;
+    private final ModelPart root;
 	private final ModelPart body_all;
 	private final ModelPart head;
 	private final ModelPart arm_right;
@@ -36,8 +36,8 @@ public class MummyModel<T extends Entity> extends HierarchicalModel<T>{
 	private final ModelPart leg_left;
 
 	public MummyModel(ModelPart root) {
-		this.all = root.getChild("all");
-		this.body_all = this.all.getChild("body_all");
+		this.root = root.getChild("root");
+		this.body_all = this.root.getChild("body_all");
 		this.head = this.body_all.getChild("head");
 		this.arm_right = this.body_all.getChild("arm_right");
 		this.itemr = this.arm_right.getChild("itemr");
@@ -45,17 +45,17 @@ public class MummyModel<T extends Entity> extends HierarchicalModel<T>{
 		this.arm_left = this.body_all.getChild("arm_left");
 		this.iteml = this.arm_left.getChild("iteml");
 		this.body = this.body_all.getChild("body");
-		this.leg_right = this.all.getChild("leg_right");
-		this.leg_left = this.all.getChild("leg_left");
+		this.leg_right = this.root.getChild("leg_right");
+		this.leg_left = this.root.getChild("leg_left");
 	}
 
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition all = partdefinition.addOrReplaceChild("all", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
+		PartDefinition root = partdefinition.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offset(0.0F, 0.0F, 0.0F));
 
-		PartDefinition body_all = all.addOrReplaceChild("body_all", CubeListBuilder.create(), PartPose.offset(0.0F, 12.0F, 0.0F));
+		PartDefinition body_all = root.addOrReplaceChild("body_all", CubeListBuilder.create(), PartPose.offset(0.0F, 12.0F, 0.0F));
 
 		PartDefinition head = body_all.addOrReplaceChild("head", CubeListBuilder.create().texOffs(32, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.51F))
 		.texOffs(0, 0).addBox(-4.0F, -8.0F, -4.0F, 8.0F, 8.0F, 8.0F, new CubeDeformation(0.0F)), PartPose.offset(0.0F, -12.0F, 0.0F));
@@ -82,10 +82,10 @@ public class MummyModel<T extends Entity> extends HierarchicalModel<T>{
 		PartDefinition body = body_all.addOrReplaceChild("body", CubeListBuilder.create().texOffs(32, 16).addBox(-4.0F, -6.0F, -2.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(0.0F))
 		.texOffs(56, 16).addBox(-4.0F, -6.0F, -2.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(0.5F)), PartPose.offset(0.0F, -6.0F, 0.0F));
 
-		PartDefinition leg_right = all.addOrReplaceChild("leg_right", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, -1.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F))
+		PartDefinition leg_right = root.addOrReplaceChild("leg_right", CubeListBuilder.create().texOffs(0, 16).addBox(-2.0F, -1.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F))
 		.texOffs(16, 16).addBox(-2.0F, -1.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.offset(-2.0F, 13.0F, 0.0F));
 
-		PartDefinition leg_left = all.addOrReplaceChild("leg_left", CubeListBuilder.create().texOffs(0, 16).mirror().addBox(-2.0F, -1.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
+		PartDefinition leg_left = root.addOrReplaceChild("leg_left", CubeListBuilder.create().texOffs(0, 16).mirror().addBox(-2.0F, -1.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false)
 		.texOffs(16, 16).mirror().addBox(-2.0F, -1.0F, -2.0F, 4.0F, 12.0F, 4.0F, new CubeDeformation(0.25F)).mirror(false), PartPose.offset(2.0F, 13.0F, 0.0F));
 
 		return LayerDefinition.create(meshdefinition, 128, 128);
@@ -100,7 +100,7 @@ public class MummyModel<T extends Entity> extends HierarchicalModel<T>{
     }
 
     public void translateItem(HumanoidArm arm, PoseStack pose) {
-        this.all.translateAndRotate(pose);
+        this.root.translateAndRotate(pose);
         if (arm == HumanoidArm.LEFT) {
             this.body_all.translateAndRotate(pose);
             this.arm_left.translateAndRotate(pose);
@@ -115,7 +115,7 @@ public class MummyModel<T extends Entity> extends HierarchicalModel<T>{
 
     public void copyPropertiesTo(HumanoidModel<?> model,  PoseStack pose) {
         // 应用根节点和身体节点的变换
-        this.all.translateAndRotate(pose);
+        this.root.translateAndRotate(pose);
         this.body_all.translateAndRotate(pose);
 
         // 复制模型部件的姿势
@@ -133,7 +133,7 @@ public class MummyModel<T extends Entity> extends HierarchicalModel<T>{
 
     @Override
     public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        this.all.getAllParts().forEach(ModelPart::resetPose);
+        this.root.getAllParts().forEach(ModelPart::resetPose);
         this.applyHeadRotation(netHeadYaw, headPitch, ageInTicks);
 
         this.animateWalk(MummyAnimation.walk, limbSwing, limbSwingAmount, 2f, 2.5f);
@@ -157,11 +157,11 @@ public class MummyModel<T extends Entity> extends HierarchicalModel<T>{
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		all.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 
     @Override
     public ModelPart root() {
-        return all;
+        return root;
     }
 }

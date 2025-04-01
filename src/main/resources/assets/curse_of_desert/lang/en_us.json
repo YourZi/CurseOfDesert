@@ -3,11 +3,10 @@
     "entity.curse_of_desert.scarab_beetle":"Scarab Beetle",
     "entity.curse_of_desert.bitumen_mummy":"Bitumen Mummy",
     "entity.curse_of_desert.bitumen":"Bitumen",
-  "entity.curse_of_desert.dog_headed_warrior":"Dog-Headed Warrior",
+    "entity.curse_of_desert.dog_headed_warrior":"Dog-Headed Warrior",
 
     "block.curse_of_desert.bitumen_bottle":"Large Bitumen Bottle",
-
-
+    "block.curse_of_desert.bitumen_block":"Bitumen Block",
 
     "sounds.curse_of_desert.bottle_placed":"Bottle: Placed",
     "sounds.curse_of_desert.bottle_break":"Bottle: Break",
@@ -23,11 +22,14 @@
     "item.curse_of_desert.dog_headed_warrior_spawn_egg":"Dog-Headed Warrior Spawn Egg",
 
     "item.curse_of_desert.sand_eye":"Sand Eye",
+    "item.curse_of_desert.bronze_hand_axe":"Bronze Hand Axe",
+    "item.curse_of_desert.sand_eye.desc":"Has a unique reaction when used in the desert",
+    "item.curse_of_desert.bronze_hand_axe.desc":"50% chance not to consume durability in desert biomes",
 
     "message.curse_of_desert.sand_eye.invalid_location":"Nothing happened...",
 
     "curse_of_desert.creativetab.base":"Curse of Desert",
-    "mob_effect.curse_of_desert.atrophy":"Atrophy",
+    "effect.curse_of_desert.atrophy":"Atrophy",
     "mob_effect.curse_of_desert.pharaoh_gaze":"Pharaoh's Gaze",
 
     "event.curse_of_desert.name":"Curse of Desert",

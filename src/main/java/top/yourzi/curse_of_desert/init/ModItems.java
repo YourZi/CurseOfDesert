@@ -27,16 +27,16 @@ public class ModItems {
 
 
     public static final RegistryObject<Item> MUMMY_EGG = ITEMS.register("mummy_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntities.MUMMY, 0x8B864E, 0xFFF68F, new Item.Properties()));
+            () -> new ForgeSpawnEggItem(ModEntities.MUMMY, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
 
     public static final RegistryObject<Item> SCARAB_BEETLE_EGG = ITEMS.register("scarab_beetle_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntities.SCARAB_BEETLE, 0x000000, 0xFFD700, new Item.Properties()));
+            () -> new ForgeSpawnEggItem(ModEntities.SCARAB_BEETLE, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
 
     public static final RegistryObject<Item> BITUMEN_MUMMY_EGG = ITEMS.register("bitumen_mummy_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntities.BITUMEN_MUMMY, 0x2F4F4F, 0x000000, new Item.Properties()));
+            () -> new ForgeSpawnEggItem(ModEntities.BITUMEN_MUMMY, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
 
     public static final RegistryObject<Item> DOG_HEADED_WARRIOR_EGG = ITEMS.register("dog_headed_warrior_spawn_egg",
-            () -> new ForgeSpawnEggItem(ModEntities.DOG_HEADED_WARRIOR, 0x8B4513, 0xD2691E, new Item.Properties()));
+            () -> new ForgeSpawnEggItem(ModEntities.DOG_HEADED_WARRIOR, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

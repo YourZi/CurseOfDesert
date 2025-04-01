@@ -1,5 +1,7 @@
 package top.yourzi.curse_of_desert.Entities.ai;
 
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.PathfinderMob;
 import net.minecraft.world.entity.ai.goal.MeleeAttackGoal;
@@ -53,7 +55,7 @@ public class DogHeadedWarriorAttackGoal extends MeleeAttackGoal {
 
     @Override
     protected double getAttackReachSqr(LivingEntity pAttackTarget) {
-        return this.mob.getBbWidth() * 2.0F * this.mob.getBbWidth() * 4.0F + pAttackTarget.getBbWidth();
+        return this.mob.getBbWidth() * 3.0F * this.mob.getBbWidth() * 4.0F + pAttackTarget.getBbWidth();
     }
 
     /**
@@ -88,6 +90,10 @@ public class DogHeadedWarriorAttackGoal extends MeleeAttackGoal {
     protected void performAttack(LivingEntity pEnemy) {
         this.resetAttackCooldown();
         this.mob.doHurtTarget(pEnemy);
+        // 播放挥剑音效
+        this.mob.level().playSound(null, this.mob.getX(), this.mob.getY(), this.mob.getZ(),
+            SoundEvents.PLAYER_ATTACK_SWEEP,
+            SoundSource.HOSTILE, 1.0F, 1.0F);
     }
 
 

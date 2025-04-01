@@ -30,7 +30,7 @@ public class MummyItemLayer extends RenderLayer<Mummy, MummyModel<Mummy>> {
             this.getParentModel().translateItem(HumanoidArm.RIGHT, pose);
             pose.mulPose(Axis.XP.rotationDegrees(-90.0F));
             pose.mulPose(Axis.YP.rotationDegrees(180.0F));
-            pose.translate(0.0D, 0.1D, -0.65D);
+            pose.translate(0.0D, 0.1D, -0.0D);
             Minecraft.getInstance().gameRenderer.itemInHandRenderer.renderItem(entity, right, ItemDisplayContext.THIRD_PERSON_RIGHT_HAND, false, pose, source, i1);
             pose.popPose();
         }
@@ -39,7 +39,7 @@ public class MummyItemLayer extends RenderLayer<Mummy, MummyModel<Mummy>> {
             this.getParentModel().translateItem(HumanoidArm.LEFT, pose);
             pose.mulPose(Axis.XP.rotationDegrees(-90.0F));
             pose.mulPose(Axis.YP.rotationDegrees(180.0F));
-            pose.translate(0.0D, 0.1D, -0.65D);
+            pose.translate(0.0D, 0.1D, -0.0D);
             Minecraft.getInstance().gameRenderer.itemInHandRenderer.renderItem(entity, left, ItemDisplayContext.THIRD_PERSON_LEFT_HAND, true, pose, source, i1);
             pose.popPose();
         }
