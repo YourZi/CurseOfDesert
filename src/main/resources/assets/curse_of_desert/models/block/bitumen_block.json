@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:block/cube_all",
+    "textures": {
+      "all": "curse_of_desert:block/bitumen_block"
+    }
+  }

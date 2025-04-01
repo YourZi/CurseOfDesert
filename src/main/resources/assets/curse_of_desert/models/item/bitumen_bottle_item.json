@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:item/generated",
+    "textures": {
+      "layer0": "curse_of_desert:item/bitumen_bottle"
+    }
+  }

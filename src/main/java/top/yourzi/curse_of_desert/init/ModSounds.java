@@ -21,6 +21,11 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> MUMMY_STEP =
             registerSoundEvents("mummy_step");
 
+    public static final RegistryObject<SoundEvent> BOTTLE_PLACED =
+            registerSoundEvents("bottle_placed");
+    public static final RegistryObject<SoundEvent> BOTTLE_BREAK =
+            registerSoundEvents("bottle_break");
+
 
     private static RegistryObject<SoundEvent> registerSoundEvents(String name) {
         return REGISTRY.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Curseofdesert.MOD_ID, name)));

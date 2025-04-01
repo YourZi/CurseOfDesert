@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "top.yourzi.curse_of_desert.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "refmap": "curse_of_desert.refmap.json",
+  "mixins": [
+  ],
+  "client": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

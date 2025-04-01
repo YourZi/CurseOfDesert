@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BB",
+    "BB"
+  ],
+  "key": {
+    "B": {
+      "item": "curse_of_desert:bitumen_bottle_item"
+    }
+  },
+  "result": {
+    "item": "curse_of_desert:bitumen_block",
+    "count": 1
+  }
+}

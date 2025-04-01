@@ -1,0 +1,92 @@
+{
+	"credit": "Made with Blockbench",
+	"render_type": "cutout_mipped",
+	"textures": {
+		"0": "curse_of_desert:block/bottle1",
+		"1": "curse_of_desert:block/bottle2",
+		"particle": "curse_of_desert:block/bottle1"
+	},
+	"elements": [
+		{
+			"from": [3.5, 0, 3.5],
+			"to": [12.5, 9, 12.5],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8.5, 18, 8.5]},
+			"faces": {
+				"north": {"uv": [0, 7, 9, 16], "texture": "#0"},
+				"east": {"uv": [0, 7, 9, 16], "texture": "#0"},
+				"south": {"uv": [0, 7, 9, 16], "texture": "#0"},
+				"west": {"uv": [0, 7, 9, 16], "texture": "#0"},
+				"up": {"uv": [0, 7, 9, 16], "texture": "#0"},
+				"down": {"uv": [0, 7, 9, 16], "texture": "#0"}
+			}
+		},
+		{
+			"from": [4.01, 0.51, 4.01],
+			"to": [11.99, 8.49, 11.99],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8.5, 18, 8.5]},
+			"faces": {
+				"north": {"uv": [0, 8, 8, 16], "texture": "#1"},
+				"east": {"uv": [0, 8, 8, 16], "texture": "#1"},
+				"south": {"uv": [0, 8, 8, 16], "texture": "#1"},
+				"west": {"uv": [0, 8, 8, 16], "texture": "#1"},
+				"up": {"uv": [0, 8, 8, 16], "texture": "#1"},
+				"down": {"uv": [0, 8, 8, 16], "texture": "#1"}
+			}
+		},
+		{
+			"from": [6.01, 8.51, 6.01],
+			"to": [9.99, 12.49, 9.99],
+			"rotation": {"angle": 0, "axis": "y", "origin": [8.5, 24, 8.5]},
+			"faces": {
+				"north": {"uv": [9, 12, 13, 16], "texture": "#0"},
+				"east": {"uv": [9, 12, 13, 16], "texture": "#0"},
+				"south": {"uv": [9, 12, 13, 16], "texture": "#0"},
+				"west": {"uv": [9, 12, 13, 16], "texture": "#0"},
+				"up": {"uv": [13, 12, 9, 8], "texture": "#0"},
+				"down": {"uv": [13, 4, 9, 8], "texture": "#0"}
+			}
+		}
+	],
+	"display": {
+		"thirdperson_righthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"thirdperson_lefthand": {
+			"rotation": [75, 45, 0],
+			"translation": [0, 2.5, 0],
+			"scale": [0.375, 0.375, 0.375]
+		},
+		"firstperson_righthand": {
+			"rotation": [0, 45, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"firstperson_lefthand": {
+			"rotation": [0, 45, 0],
+			"scale": [0.4, 0.4, 0.4]
+		},
+		"ground": {
+			"translation": [0, 3, 0],
+			"scale": [0.25, 0.25, 0.25]
+		},
+		"gui": {
+			"rotation": [30, 225, 0],
+			"scale": [0.625, 0.625, 0.625]
+		},
+		"head": {
+			"translation": [0, 11, 0]
+		},
+		"fixed": {
+			"scale": [0.5, 0.5, 0.5]
+		}
+	},
+	"groups": [
+		{
+			"name": "bottle",
+			"origin": [8.5, 20, 8.5],
+			"color": 0,
+			"children": [0, 1, 2]
+		}
+	]
+}

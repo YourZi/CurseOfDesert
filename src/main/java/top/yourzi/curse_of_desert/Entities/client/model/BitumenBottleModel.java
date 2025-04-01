@@ -1,4 +1,4 @@
-package top.yourzi.curse_of_desert.Entities.BitumenBottle;
+package top.yourzi.curse_of_desert.Entities.client.model;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -10,7 +10,7 @@ import net.minecraft.client.model.geom.builders.*;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import top.yourzi.curse_of_desert.Curseofdesert;
+import top.yourzi.curse_of_desert.Entities.BitumenBottle.BitumenBottle;
 
 @OnlyIn(Dist.CLIENT)
 public class BitumenBottleModel extends EntityModel<BitumenBottle> {
@@ -18,7 +18,7 @@ public class BitumenBottleModel extends EntityModel<BitumenBottle> {
     public void setupAnim(BitumenBottle entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
     }
   // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
-	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation(Curseofdesert.MOD_ID, "textures/entity/mummy"), "main");
+	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("curse_of_desert", "textures/entity/mummy"), "main");
 	private final ModelPart bottle;
 
 	public BitumenBottleModel(ModelPart root) {
@@ -29,7 +29,7 @@ public class BitumenBottleModel extends EntityModel<BitumenBottle> {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition bottle = partdefinition.addOrReplaceChild("bottle", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 17.5F, 0.0F, -1.5708F, 0.0F, 0.0F));
+		PartDefinition bottle = partdefinition.addOrReplaceChild("bottle", CubeListBuilder.create(), PartPose.offsetAndRotation(0.0F, 17.5F, 0.0F, -1.5708F, 0.0F, -3.1416F));
 
 		PartDefinition cube_r1 = bottle.addOrReplaceChild("cube_r1", CubeListBuilder.create().texOffs(92, 86).addBox(-1.5F, 11.5F, -2.5F, 4.0F, 4.0F, 4.0F, new CubeDeformation(-0.01F)), PartPose.offsetAndRotation(-0.5F, -0.5F, -17.5F, 1.5708F, 0.0F, 0.0F));
 
