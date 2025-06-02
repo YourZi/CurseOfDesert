@@ -4,6 +4,7 @@
     "entity.curse_of_desert.bitumen_mummy":"Bitumen Mummy",
     "entity.curse_of_desert.bitumen":"Bitumen",
     "entity.curse_of_desert.dog_headed_warrior":"Dog-Headed Warrior",
+    "entity.curse_of_desert.dog_headed_priests":"Dog-Headed Priests",
     "entity.curse_of_desert.giant_scorpion":"Giant Scorpion",
 
     "block.curse_of_desert.bitumen_bottle":"Large Bitumen Bottle",
@@ -21,6 +22,7 @@
     "item.curse_of_desert.bitumen_mummy_spawn_egg":"Bitumen Mummy Spawn Egg",
     "item.curse_of_desert.bitumen_bottle_item":"Bitumen Bottle",
     "item.curse_of_desert.dog_headed_warrior_spawn_egg":"Dog-Headed Warrior Spawn Egg",
+    "item.curse_of_desert.dog_headed_priests_spawn_egg":"Dog-Headed Priests Spawn Egg",
     "item.curse_of_desert.giant_scorpion_spawn_egg":"Giant Scorpion Spawn Egg",
 
     "item.curse_of_desert.sand_eye":"Sand Eye",

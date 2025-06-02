@@ -41,6 +41,9 @@ public class ModItems {
     public static final RegistryObject<Item> GIANT_SCORPION_EGG = ITEMS.register("giant_scorpion_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.GIANT_SCORPION, 0x8B4513, 0x000000, new Item.Properties()));
 
+    public static final RegistryObject<Item> DOG_HEADED_PRIESTS_EGG = ITEMS.register("dog_headed_priests_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.DOG_HEADED_PRIESTS, 0x8B4513, 0xFFD700, new Item.Properties()));
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
     }

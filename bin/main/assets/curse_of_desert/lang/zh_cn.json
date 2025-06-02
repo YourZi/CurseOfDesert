@@ -4,6 +4,7 @@
     "entity.curse_of_desert.bitumen_mummy":"沥青木乃伊",
     "entity.curse_of_desert.bitumen":"沥青",
     "entity.curse_of_desert.dog_headed_warrior":"狗头人战士",
+    "entity.curse_of_desert.dog_headed_priests":"狗头人祭司",
     "entity.curse_of_desert.giant_scorpion":"巨蝎",
 
     "block.curse_of_desert.bitumen_bottle":"大型沥青瓶",
@@ -24,6 +25,7 @@
     "item.curse_of_desert.bitumen_mummy_spawn_egg":"沥青木乃伊刷怪蛋",
     "item.curse_of_desert.bitumen_bottle_item":"沥青瓶",
     "item.curse_of_desert.dog_headed_warrior_spawn_egg":"狗头人战士刷怪蛋",
+    "item.curse_of_desert.dog_headed_priests_spawn_egg":"狗头人祭司刷怪蛋",
     "item.curse_of_desert.giant_scorpion_spawn_egg":"巨蝎刷怪蛋",
 
     "item.curse_of_desert.sand_eye":"蒙沙之眼",

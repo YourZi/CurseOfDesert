@@ -8,11 +8,13 @@ import net.minecraftforge.fml.common.Mod;
 import top.yourzi.curse_of_desert.Curseofdesert;
 import top.yourzi.curse_of_desert.Entities.client.model.BitumenBottleModel;
 import top.yourzi.curse_of_desert.Entities.client.model.DogHeadedWarriorModel;
+import top.yourzi.curse_of_desert.Entities.client.model.DogHeadedPriestsModel;
 import top.yourzi.curse_of_desert.Entities.client.model.GiantScorpionModel;
 import top.yourzi.curse_of_desert.Entities.client.model.MummyModel;
 import top.yourzi.curse_of_desert.Entities.client.model.ScarabBeetleModel;
 import top.yourzi.curse_of_desert.Entities.client.render.BitumenBottleRenderer;
 import top.yourzi.curse_of_desert.Entities.client.render.BitumenRenderer;
+import top.yourzi.curse_of_desert.Entities.client.render.DogHeadedPriestsRenderer;
 import top.yourzi.curse_of_desert.Entities.client.render.DogHeadedWarriorRenderer;
 import top.yourzi.curse_of_desert.Entities.client.render.GiantScorpionRenderer;
 import top.yourzi.curse_of_desert.Entities.client.render.MummyRenderer;
@@ -29,6 +31,7 @@ public class ModEventBusClientEvents {
         event.registerLayerDefinition(BitumenBottleModel.LAYER_LOCATION, BitumenBottleModel::createBodyLayer);
         event.registerLayerDefinition(ScarabBeetleModel.LAYER_LOCATION, ScarabBeetleModel::createBodyLayer);
         event.registerLayerDefinition(DogHeadedWarriorModel.LAYER_LOCATION, DogHeadedWarriorModel::createBodyLayer);
+        event.registerLayerDefinition(DogHeadedPriestsModel.LAYER_LOCATION, DogHeadedPriestsModel::createBodyLayer);
         event.registerLayerDefinition(GiantScorpionModel.LAYER_LOCATION, GiantScorpionModel::createBodyLayer);
     }
 
@@ -41,6 +44,7 @@ public class ModEventBusClientEvents {
         event.registerEntityRenderer(ModEntities.BITUMEN_MUMMY.get(), MummyRenderer::new);
         event.registerEntityRenderer(ModEntities.BITUMEN.get(), BitumenRenderer::new);
         event.registerEntityRenderer(ModEntities.DOG_HEADED_WARRIOR.get(), DogHeadedWarriorRenderer::new);
+        event.registerEntityRenderer(ModEntities.DOG_HEADED_PRIESTS.get(), DogHeadedPriestsRenderer::new);
         event.registerEntityRenderer(ModEntities.GIANT_SCORPION.get(), GiantScorpionRenderer::new);
     }
 }
