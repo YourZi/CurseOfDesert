@@ -1,9 +1,13 @@
 package top.yourzi.curse_of_desert.Entities.client.render;
 
+import org.antlr.v4.runtime.misc.NotNull;
+
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
+import net.minecraft.client.renderer.entity.layers.EyesLayer;
 import net.minecraft.resources.ResourceLocation;
 import top.yourzi.curse_of_desert.Curseofdesert;
 import top.yourzi.curse_of_desert.Entities.GiantScorpion.GiantScorpion;
@@ -17,6 +21,12 @@ public class GiantScorpionRenderer extends MobRenderer<GiantScorpion, GiantScorp
     public GiantScorpionRenderer(EntityRendererProvider.Context context) {
         super(context, new GiantScorpionModel<>(context.bakeLayer(GiantScorpionModel.LAYER_LOCATION)), 0.8f);
         
+        this.addLayer(new EyesLayer<>(this) {
+            @Override
+            public @NotNull RenderType renderType() {
+                return RenderType.eyes(new ResourceLocation(Curseofdesert.MOD_ID,"textures/entity/giant_scorpion_overlay.png"));
+            }
+        });
         this.addLayer(new GiantScorpionItemLayer(this, context.getItemInHandRenderer()));
     }
 
