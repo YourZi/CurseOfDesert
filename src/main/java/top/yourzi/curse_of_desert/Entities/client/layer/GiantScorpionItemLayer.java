@@ -43,10 +43,9 @@ public class GiantScorpionItemLayer extends RenderLayer<GiantScorpion, GiantScor
             
             // 调整物品位置和旋转
             pMatrixStack.translate(-0.15F, 0.0F, -0.4F);
-            pMatrixStack.mulPose(Axis.XP.rotationDegrees(90.0F));
+            pMatrixStack.mulPose(Axis.XP.rotationDegrees(180.0F));
             pMatrixStack.mulPose(Axis.YP.rotationDegrees(180.0F));
-            // 额外旋转90度并放大2倍
-            pMatrixStack.mulPose(Axis.ZP.rotationDegrees(90.0F));
+
             pMatrixStack.scale(1.6F, 1.6F, 1.6F);
             
             // 渲染物品
