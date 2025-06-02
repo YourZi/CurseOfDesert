@@ -1,8 +1,11 @@
 # User-specific stuff
 .idea/
 .vscode/
-.run-data/
+run-data/
 .gradle/
+run/
+run-data/
+
 build/
 dist/
 *.iml
