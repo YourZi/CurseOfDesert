@@ -82,13 +82,11 @@ public class Mummy extends Zombie {
 
     @Override
     protected boolean isSunSensitive() {
-        // 检查是否在事件范围内
         if (this.level() instanceof ServerLevel serverLevel) {
             CurseOfDesertEvent event = top.yourzi.curse_of_desert.Events.CurseOfDesertEventHandler.getCurrentEvent();
             if (event != null && event.isActive()) {
                 BlockPos eventCenter = event.getCenter();
-                // 检查是否在事件范围内（50格范围）
-                return this.blockPosition().distSqr(eventCenter) > 2500; // 50 * 50 = 2500
+                return this.blockPosition().distSqr(eventCenter) > 2500;
             }
         }
         return true;
@@ -96,13 +94,11 @@ public class Mummy extends Zombie {
 
     @Override
     public boolean fireImmune() {
-        // 检查是否在事件范围内
         if (this.level() instanceof ServerLevel serverLevel) {
             CurseOfDesertEvent event = top.yourzi.curse_of_desert.Events.CurseOfDesertEventHandler.getCurrentEvent();
             if (event != null && event.isActive()) {
                 BlockPos eventCenter = event.getCenter();
-                // 检查是否在事件范围内（50格范围）
-                return this.blockPosition().distSqr(eventCenter) <= 2500; // 50 * 50 = 2500
+                return this.blockPosition().distSqr(eventCenter) <= 2500;
             }
         }
         return super.fireImmune();
@@ -163,12 +159,6 @@ public class Mummy extends Zombie {
     }
 
 
-    private void resetAnimations() {
-        this.idle.stop();
-        this.walk.stop();
-        this.attack.stop();
-    }
-
     @Override
     public boolean isUnderWaterConverting() {
         return false;
@@ -180,17 +170,10 @@ public class Mummy extends Zombie {
     }
 
     @Override
-    public boolean killedEntity(ServerLevel pLevel, LivingEntity pEntity) {
-        boolean flag = super.killedEntity(pLevel, pEntity);
-        return flag;
-    }
-
-    @Override
     public boolean doHurtTarget(Entity pEntity) {
         if (pEntity instanceof LivingEntity livingEntity) {
-            // 检查攻击者是否带有沙漠诅咒事件标签
             if (livingEntity.getType().is(ModTags.CURSE_OF_DESERT)) {
-                return false; // 如果攻击者带有标签，不进行反击
+                return false;
             }
         }
         return super.doHurtTarget(pEntity);

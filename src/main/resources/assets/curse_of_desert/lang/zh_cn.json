@@ -4,6 +4,7 @@
     "entity.curse_of_desert.bitumen_mummy":"沥青木乃伊",
     "entity.curse_of_desert.bitumen":"沥青",
     "entity.curse_of_desert.dog_headed_warrior":"狗头人战士",
+    "entity.curse_of_desert.giant_scorpion":"巨蝎",
 
     "block.curse_of_desert.bitumen_bottle":"大型沥青瓶",
     "block.curse_of_desert.bitumen_block":"沥青块",
@@ -23,6 +24,7 @@
     "item.curse_of_desert.bitumen_mummy_spawn_egg":"沥青木乃伊刷怪蛋",
     "item.curse_of_desert.bitumen_bottle_item":"沥青瓶",
     "item.curse_of_desert.dog_headed_warrior_spawn_egg":"狗头人战士刷怪蛋",
+    "item.curse_of_desert.giant_scorpion_spawn_egg":"巨蝎刷怪蛋",
 
     "item.curse_of_desert.sand_eye":"蒙沙之眼",
     "item.curse_of_desert.bronze_hand_axe":"古铜手斧",
@@ -44,5 +46,12 @@
     "commands.curseofdesert.start.error.already_active":"已有一个事件正在进行中",
     "commands.curseofdesert.start.success":"狂沙之咒事件已开始",
     "commands.curseofdesert.stop.error.not_active":"没有正在进行的事件可以停止",
-    "commands.curseofdesert.stop.success":"狂沙之咒事件已停止"
+    "commands.curseofdesert.stop.success":"狂沙之咒事件已停止",
+
+    "command.curse_of_desert.start.success":"狂沙之咒事件已在 %s, %s, %s 启动",
+    "command.curse_of_desert.start.already_active":"狂沙之咒事件已在 %s, %s, %s 进行中",
+    "command.curse_of_desert.stop.success":"狂沙之咒事件已停止",
+    "command.curse_of_desert.stop.no_active_event":"没有正在进行的狂沙之咒事件可以停止",
+    "command.curse_of_desert.status.no_active_event":"当前没有正在进行的狂沙之咒事件",
+    "command.curse_of_desert.status.active":"狂沙之咒事件正在 %s, %s, %s 进行中（第%s/%s波）"
 }

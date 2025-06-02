@@ -10,6 +10,7 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -22,17 +23,13 @@ import top.yourzi.curse_of_desert.init.ModTags;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 沙漠诅咒事件类
- * 负责管理沙漠诅咒事件的整个生命周期，包括初始化、波次管理、实体生成和状态更新
- */
+
 public class CurseOfDesertEvent {
     private final ServerLevel level;
     private final BlockPos center;
     private final List<ServerPlayer> players;
     private final ServerBossEvent bossEvent;
     
-    // 事件状态相关
     private int currentWave;
     private final int totalWaves;
     private boolean isActive;
@@ -41,23 +38,23 @@ public class CurseOfDesertEvent {
     private boolean finishSuccess;
     private boolean delayFinishing;
     
-    // 初始化相关
     private boolean isInitializing;
     private long initStartTime;
     private long finishStartTime;
     private static final long INIT_DURATION = 7000;
     
-    // 事件范围常量
+    private long delayStartTime;
+    private static final long FINISH_DELAY = 1700;
+    private static final long ENTITY_SPAWN_DELAY = 100;
+    private int entitySpawnCounter = 0;
+    private boolean waitingForEntitySpawn = false;
+    
     private static final int EVENT_RADIUS = 50;
     private static final int SPAWN_MIN_DISTANCE = 2;
     private static final int SPAWN_MAX_DISTANCE = 10;
     private static final int SPAWN_HEIGHT_SEARCH_RANGE = 30;
     
-    /**
-     * 构造函数
-     * @param level 服务器世界实例
-     * @param center 事件中心点位置
-     */
+
     public CurseOfDesertEvent(ServerLevel level, BlockPos center) {
         this.level = level;
         this.center = center;
@@ -74,16 +71,13 @@ public class CurseOfDesertEvent {
         this.isInitializing = true;
         this.initStartTime = System.currentTimeMillis();
 
-        // 检查范围内已存在的事件生物
         AABB area = new AABB(center).inflate(50);
         List<LivingEntity> existingEntities = level.getEntitiesOfClass(LivingEntity.class, area,
             entity -> entity.getType().is(ModTags.CURSE_OF_DESERT));
 
         if (!existingEntities.isEmpty()) {
-            // 如果有已存在的事件生物，直接开始第一波
             this.currentWave = 1;
             spawnWaveEntities();
-            // 计算已存在事件生物的最大生命值总和
             for (LivingEntity entity : existingEntities) {
                 if (entity.isAlive()) {
                     this.maxHealthRecord += entity.getMaxHealth();
@@ -95,10 +89,7 @@ public class CurseOfDesertEvent {
     private int tickCounter = 0;
     private static final int TICK_INTERVAL = 2;
 
-    /**
-     * 事件主循环更新
-     * 处理事件的所有逻辑，包括初始化、波次更新和状态检查
-     */
+
     public void tick() {
         if (!isActive) {
             bossEvent.setVisible(false);
@@ -106,26 +97,21 @@ public class CurseOfDesertEvent {
         };
         bossEvent.setVisible(true);
     
-        // 每2tick执行一次更新
         if (++tickCounter >= 2) {
             tickCounter = 0;
-            // 更新玩家列表
             updatePlayers();
     
-            // 处理初始化阶段
             if (isInitializing) {
                 long currentTime = System.currentTimeMillis();
                 long elapsedTime = currentTime - initStartTime;
                 
                 if (elapsedTime >= INIT_DURATION) {
-                    // 初始化完成
                     isInitializing = false;
                     bossEvent.setProgress(1.0F);
                 } else {
-                    // 更新初始化进度条
                     float progress = (float) elapsedTime / INIT_DURATION;
                     bossEvent.setProgress(progress);
-                    return; // 在初始化阶段不执行其他逻辑
+                    return;
                 }
             }
     
@@ -133,34 +119,48 @@ public class CurseOfDesertEvent {
                 startNextWave();
             }
     
-            // 检查当前波次的怪物是否全部被击败
             if (isCurrentWaveCleared()) {
                 if (currentWave < totalWaves) {
                     float currentProgress = bossEvent.getProgress();
                     if (currentProgress < 1.0F) {
-                        // 增加进度条
                         bossEvent.setProgress(Math.min(1.0F, currentProgress + 0.030F));
                     } else {
-                        // 进度条满了，开始下一波
                         startNextWave();
                     }
                 } else {
-                    // 所有波次完成，事件结束
                     bossEvent.setProgress(0);
-                    try {
-                        if (!delayFinishing){
-                            finishSuccess = true;
-                            delayFinishing = true;
-                            Thread.sleep(1700);
+                    if (!delayFinishing){
+                        finishSuccess = true;
+                        delayFinishing = true;
+                        delayStartTime = System.currentTimeMillis();
+                    } else {
+                        long currentTime = System.currentTimeMillis();
+                        if (currentTime - delayStartTime >= FINISH_DELAY) {
                             finish(true);
-                        }else return;
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
+                        }
                     }
                 }
             }
             if (!isCurrentWaveCleared()){
                 updateBossBar();
+            }
+            
+            processEntitySpawnQueue();
+        }
+    }
+    
+    /**
+     * 处理实体生成队列，实现延迟生成
+     */
+    private void processEntitySpawnQueue() {
+        if (!entitySpawnQueue.isEmpty()) {
+            long currentTime = System.currentTimeMillis();
+            if (currentTime - lastEntitySpawnTime >= ENTITY_SPAWN_DELAY) {
+                EntitySpawnTask task = entitySpawnQueue.poll();
+                if (task != null) {
+                    spawnEntityWithEffects(task.entityType, task.spawnPos);
+                    lastEntitySpawnTime = currentTime;
+                }
             }
         }
     }
@@ -176,20 +176,25 @@ public class CurseOfDesertEvent {
 
         float maxHealthSum = 0;
         float currentHealthSum = 0;
+        List<LivingEntity> aliveEntities = new ArrayList<>();
 
         for (LivingEntity entity : entities) {
             if(entity.isAlive()){
                 maxHealthSum += entity.getMaxHealth();
                 currentHealthSum += entity.getHealth();
+                aliveEntities.add(entity);
             }
         }
         
-        // 更新历史最大生命值记录，只增不减
+        if (aliveEntities.size() == 1 && currentWave > 0) {
+            LivingEntity lastEntity = aliveEntities.get(0);
+            lastEntity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 1200, 0, false, true));
+        }
+        
         if (maxHealthSum > maxHealthRecord) {
             maxHealthRecord = maxHealthSum;
         }
         
-        // 使用历史最大生命值记录作为分母
         if (maxHealthRecord > 0) {
             bossEvent.setProgress(currentHealthSum / maxHealthRecord);
         } else {
@@ -202,35 +207,30 @@ public class CurseOfDesertEvent {
      * 检查玩家存活状态，更新Boss栏显示，应用法老凝视效果
      */
     private void updatePlayers() {
-        // 获取范围内的所有玩家
         AABB box = new AABB(center).inflate(50);
         List<ServerPlayer> nearbyPlayers = level.getEntitiesOfClass(ServerPlayer.class, box);
 
-        // 如果范围内没有玩家，结束事件并标记为失败
         if (nearbyPlayers.isEmpty()) {
             finish(false);
             return;
         }
 
-        // 检查范围内玩家的生命状态
         for (ServerPlayer player : nearbyPlayers) {
             if (!player.isAlive()) {
-                // 如果发现有玩家死亡，立即结束事件并标记为失败
-                try {
-                    if (!delayFinishing){
-                        finishSuccess = false;
-                        delayFinishing = true;
-                        Thread.sleep(1700);
+                if (!delayFinishing){
+                    finishSuccess = false;
+                    delayFinishing = true;
+                    delayStartTime = System.currentTimeMillis();
+                } else {
+                    long currentTime = System.currentTimeMillis();
+                    if (currentTime - delayStartTime >= FINISH_DELAY) {
                         finish(false);
-                    }else return;
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
+                    }
                 }
                 return;
             }
         }
 
-        // 移除所有不在范围内的玩家的Boss栏显示
         for (ServerPlayer player : new ArrayList<>(players)) {
             if (!nearbyPlayers.contains(player)) {
                 bossEvent.removePlayer(player);
@@ -238,7 +238,6 @@ public class CurseOfDesertEvent {
             }
         }
 
-        // 为新进入范围的玩家添加Boss栏显示
         for (ServerPlayer player : nearbyPlayers) {
             if (!players.contains(player)) {
                 bossEvent.addPlayer(player);
@@ -246,17 +245,14 @@ public class CurseOfDesertEvent {
             }
         }
 
-        // 处理范围内的所有生物
         List<LivingEntity> nearbyEntities = level.getEntitiesOfClass(LivingEntity.class, box);
-        int effectLevel = level.getDifficulty() == Difficulty.HARD ? 1 : 0; // 困难模式为2级效果（索引为1），其他为1级效果（索引为0）
+        int effectLevel = level.getDifficulty() == Difficulty.HARD ? 1 : 0;
 
         for (LivingEntity entity : nearbyEntities) {
-            // 跳过事件相关的生物
             if (entity.getType().is(ModTags.CURSE_OF_DESERT)) {
                 continue;
             }
 
-            // 为非事件生物添加或更新法老凝视效果
             if (isActive) {
                 entity.addEffect(new MobEffectInstance(ModEffect.PHARAOH_GAZE.get(), 20, effectLevel, false, false));
             }
@@ -273,19 +269,12 @@ public class CurseOfDesertEvent {
         finishStartTime = System.currentTimeMillis();
         isActive = false;
 
-        try {
-            // 延迟0.2秒执行
-            Thread.sleep(200);
-            // 移除所有玩家的Boss栏显示
-            for (ServerPlayer player : new ArrayList<>(players)) {
-                bossEvent.removePlayer(player);
-            }
-            players.clear();
-            maxHealthRecord = 0;
-        } catch (InterruptedException e) {
-            // 处理中断异常
-            Thread.currentThread().interrupt();
+        // 移除所有玩家的Boss栏显示
+        for (ServerPlayer player : new ArrayList<>(players)) {
+            bossEvent.removePlayer(player);
         }
+        players.clear();
+        maxHealthRecord = 0;
     }
 
     /**
@@ -308,10 +297,23 @@ public class CurseOfDesertEvent {
      */
     private void startNextWave() {
         currentWave++;
-        maxHealthRecord = 0; // 重置历史最大生命值记录
+        maxHealthRecord = 0;
         spawnWaveEntities();
     }
 
+    private java.util.Queue<EntitySpawnTask> entitySpawnQueue = new java.util.LinkedList<>();
+    private long lastEntitySpawnTime = 0;
+    
+    private static class EntitySpawnTask {
+        final EntityType<?> entityType;
+        final BlockPos spawnPos;
+        
+        EntitySpawnTask(EntityType<?> entityType, BlockPos spawnPos) {
+            this.entityType = entityType;
+            this.spawnPos = spawnPos;
+        }
+    }
+    
     /**
      * 生成指定类型和数量的实体
      * @param entityType 实体类型
@@ -319,7 +321,6 @@ public class CurseOfDesertEvent {
      */
     private void spawnEntities(EntityType<?> entityType, int number) {
         for (int i = 0; i < number; i++) {
-            // 在中心点附近随机选择一个位置
             double angle = level.random.nextDouble() * Math.PI * 2;
             double distance = SPAWN_MIN_DISTANCE + level.random.nextDouble() * (SPAWN_MAX_DISTANCE - SPAWN_MIN_DISTANCE);
             double x = center.getX() + Math.cos(angle) * distance;
@@ -327,7 +328,7 @@ public class CurseOfDesertEvent {
             
             BlockPos spawnPos = findValidSpawnPosition(new BlockPos((int)x, center.getY(), (int)z));
             if (spawnPos != null) {
-                spawnEntityWithEffects(entityType, spawnPos);
+                entitySpawnQueue.offer(new EntitySpawnTask(entityType, spawnPos));
             }
         }
     }
@@ -371,39 +372,63 @@ public class CurseOfDesertEvent {
             entity.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
             level.addFreshEntity(entity);
             spawnSandParticles(pos);
-            try {
-                Thread.sleep(100);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-            }
         }
     }
 
     /**
-     * 生成沙子粒子效果
+     * 生成沙暴粒子效果
      * @param pos 粒子生成位置
      */
     private void spawnSandParticles(BlockPos pos) {
-        for (int i = 0; i < 20; i++) {
-            double offsetX = level.random.nextDouble() * 2 - 1;
-            double offsetY = level.random.nextDouble() * 2;
-            double offsetZ = level.random.nextDouble() * 2 - 1;
-            double speed = 0.8;
+        for (int i = 0; i < 30; i++) {
+            double horizontalDirection = level.random.nextBoolean() ? 1 : -1;
+            boolean moveEastWest = level.random.nextBoolean();
+            
+            double velocityY = (level.random.nextDouble() - 0.5) * 0.002;
+            double horizontalSpeed = 1.5 + level.random.nextDouble() * 150;
+            double velocityX, velocityZ;
+            
+            if (moveEastWest) {
+                velocityX = horizontalDirection * horizontalSpeed;
+                velocityZ = (level.random.nextDouble() - 0.5) * 0.5;
+            } else {
+                velocityX = (level.random.nextDouble() - 0.5) * 0.5;
+                velocityZ = horizontalDirection * horizontalSpeed;
+            }
+            
+            level.sendParticles(
+                new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SANDSTONE.defaultBlockState()),
+                pos.getX() + 0.5 + (level.random.nextDouble() - 0.5) * 2,
+                pos.getY() + 0.5 + level.random.nextDouble() * 3,
+                pos.getZ() + 0.5 + (level.random.nextDouble() - 0.5) * 2,
+                1,
+                velocityX,
+                velocityY,
+                velocityZ,
+                0.1
+            );
+        }
+        
+        for (int i = 0; i < 15; i++) {
+            double horizontalDirection = level.random.nextBoolean() ? 1 : -1;
+            double velocityX = horizontalDirection * (2.0 + level.random.nextDouble() * 2.0);
+            double velocityY = (level.random.nextDouble() - 0.5) * 0.15;
+            double velocityZ = (level.random.nextDouble() - 0.5) * 0.8;
+            
             level.sendParticles(
                 new BlockParticleOption(ParticleTypes.FALLING_DUST, Blocks.SAND.defaultBlockState()),
-                pos.getX() + 0.5,
-                pos.getY() + 0.5,
-                pos.getZ() + 0.5,
-                5,
-                offsetX * speed,
-                offsetY * speed,
-                offsetZ * speed,
-                1.0
+                pos.getX() + 0.5 + (level.random.nextDouble() - 0.5) * 3,
+                pos.getY() + 0.5 + level.random.nextDouble() * 4,
+                pos.getZ() + 0.5 + (level.random.nextDouble() - 0.5) * 3,
+                1,
+                velocityX,
+                velocityY,
+                velocityZ,
+                0.05
             );
         }
     }
 
-    // Getter方法
     public boolean isActive() { return isActive; }
     public boolean isFinishing() { return isFinishing; }
     public boolean delayFinishing() { return delayFinishing; }

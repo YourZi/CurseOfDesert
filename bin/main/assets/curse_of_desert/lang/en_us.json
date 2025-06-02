@@ -4,6 +4,7 @@
     "entity.curse_of_desert.bitumen_mummy":"Bitumen Mummy",
     "entity.curse_of_desert.bitumen":"Bitumen",
     "entity.curse_of_desert.dog_headed_warrior":"Dog-Headed Warrior",
+    "entity.curse_of_desert.giant_scorpion":"Giant Scorpion",
 
     "block.curse_of_desert.bitumen_bottle":"Large Bitumen Bottle",
     "block.curse_of_desert.bitumen_block":"Bitumen Block",
@@ -20,6 +21,7 @@
     "item.curse_of_desert.bitumen_mummy_spawn_egg":"Bitumen Mummy Spawn Egg",
     "item.curse_of_desert.bitumen_bottle_item":"Bitumen Bottle",
     "item.curse_of_desert.dog_headed_warrior_spawn_egg":"Dog-Headed Warrior Spawn Egg",
+    "item.curse_of_desert.giant_scorpion_spawn_egg":"Giant Scorpion Spawn Egg",
 
     "item.curse_of_desert.sand_eye":"Sand Eye",
     "item.curse_of_desert.bronze_hand_axe":"Bronze Hand Axe",
@@ -41,5 +43,12 @@
     "commands.curseofdesert.start.error.already_active":"An event is already active",
     "commands.curseofdesert.start.success":"Desert Curse event started",
     "commands.curseofdesert.stop.error.not_active":"No active event to stop",
-    "commands.curseofdesert.stop.success":"Desert Curse event stopped"
+    "commands.curseofdesert.stop.success":"Desert Curse event stopped",
+
+    "command.curse_of_desert.start.success":"Desert Curse event started at %s, %s, %s",
+    "command.curse_of_desert.start.already_active":"A Desert Curse event is already active at %s, %s, %s",
+    "command.curse_of_desert.stop.success":"Desert Curse event stopped",
+    "command.curse_of_desert.stop.no_active_event":"No active Desert Curse event to stop",
+    "command.curse_of_desert.status.no_active_event":"No Desert Curse event is currently active",
+    "command.curse_of_desert.status.active":"Desert Curse event is active at %s, %s, %s (Wave %s/%s)"
 }

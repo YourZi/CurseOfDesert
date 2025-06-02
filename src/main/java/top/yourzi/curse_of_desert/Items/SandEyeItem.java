@@ -24,12 +24,9 @@ import top.yourzi.curse_of_desert.AttackEvent.CurseOfDesertEvent;
 import top.yourzi.curse_of_desert.Events.CurseOfDesertEventHandler;
 
 public class SandEyeItem extends Item {
-    private static final int USE_DURATION = 60; // 3秒使用时间
-    private static final int CHECK_RADIUS = 32; // 检查生物群系的半径
-    private static final int EVENT_CHECK_RADIUS = 100; // 检查事件的半径
-
-    private final AnimationState useAnimation = new AnimationState();
-    private int animationTick = 0;
+    private static final int USE_DURATION = 60;
+    private static final int CHECK_RADIUS = 32;
+    private static final int EVENT_CHECK_RADIUS = 100;
 
     public SandEyeItem(Properties properties) {
         super(properties);
@@ -56,7 +53,6 @@ public class SandEyeItem extends Item {
     public void onUseTick(Level level, LivingEntity entity, ItemStack stack, int remainingUseTicks) {
         if (entity.level().isClientSide() && entity instanceof Player player) {
 
-            // 在客户端处理发光效果
             if (remainingUseTicks == 30) {
                 if (isValidLocation(entity.level(), player.blockPosition())) {
                     stack.getOrCreateTag().putBoolean("glowing", true);
@@ -72,19 +68,15 @@ public class SandEyeItem extends Item {
     public ItemStack finishUsingItem(ItemStack stack, Level level, LivingEntity entity) {
         if (level.isClientSide()) {
             Minecraft.getInstance().gameRenderer.displayItemActivation(stack);
-            useAnimation.stop();
-            animationTick = 0;
         }
         if (!level.isClientSide() && level instanceof ServerLevel serverLevel && entity instanceof Player player) {
             BlockPos pos = player.blockPosition();
             if (isValidLocation(level, pos)) {
                 stack.getOrCreateTag().putBoolean("glowing", true);
-                // 创建新的沙漠诅咒事件
                 CurseOfDesertEvent event = new CurseOfDesertEvent(serverLevel, pos);
                 CurseOfDesertEventHandler.setCurrentEvent(event);
                 ServerPlayer serverPlayer = (ServerPlayer) player;
                 stack.getOrCreateTag().putBoolean("glowing", false);
-                // 消耗物品
                 stack.shrink(serverPlayer.gameMode.isCreative() ? 0 : 1);
                 return stack;
             }
@@ -93,12 +85,10 @@ public class SandEyeItem extends Item {
     }
 
     private boolean isValidLocation(Level level, BlockPos pos) {
-        // 检查是否有活跃的事件
         if (hasActiveEventNearby(pos, EVENT_CHECK_RADIUS)) {
             return false;
         }
 
-        // 检查周围生物群系
         return isDesertBiomeArea(level, pos, CHECK_RADIUS);
     }
 
@@ -114,7 +104,6 @@ public class SandEyeItem extends Item {
     private boolean isDesertBiomeArea(Level level, BlockPos center, int radius) {
         for (int x = -radius; x <= radius; x++) {
             for (int z = -radius; z <= radius; z++) {
-                // 只检查圆形范围内的点
                 if (x * x + z * z <= radius * radius) {
                     BlockPos checkPos = center.offset(x, 0, z);
                     if (!level.getBiome(checkPos).is(BiomeTags.HAS_DESERT_PYRAMID)) {

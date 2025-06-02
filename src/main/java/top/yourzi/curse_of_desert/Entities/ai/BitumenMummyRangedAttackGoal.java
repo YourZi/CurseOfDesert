@@ -68,7 +68,7 @@ public class BitumenMummyRangedAttackGoal extends RangedAttackGoal {
         double dz = target.getZ() - mummy.getZ();
         
         double horizontalDistance = Math.sqrt(dx * dx + dz * dz);
-        double g = 0.05D; // Minecraft中的重力加速度
+        double g = 0.05D; // 重力加速度
         
         // 根据目标距离动态调整速度和角度
         double velocity = 0.8D; // 降低基础速度

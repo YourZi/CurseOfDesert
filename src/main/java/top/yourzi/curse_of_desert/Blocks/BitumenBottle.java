@@ -44,9 +44,7 @@ public class BitumenBottle extends FallingBlock implements SimpleWaterloggedBloc
                 SoundEvents.GLASS_HIT,
                 SoundEvents.GLASS_FALL))
             .noOcclusion()
-            .isRedstoneConductor((bs, br, bp) -> false)
-            );
-
+            .isRedstoneConductor((bs, br, bp) -> false));
         this.registerDefaultState(this.stateDefinition.any().setValue(WATERLOGGED, false));
     }
 

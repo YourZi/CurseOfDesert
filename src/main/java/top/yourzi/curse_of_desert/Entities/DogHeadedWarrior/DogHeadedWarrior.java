@@ -55,11 +55,6 @@ public class DogHeadedWarrior extends Zombie {
     }
 
     @Override
-    public boolean fireImmune() {
-        return false;
-    }
-
-    @Override
     protected void registerGoals() {
         super.registerGoals();
         this.goalSelector.getAvailableGoals().removeIf(goal -> goal.getGoal() instanceof ZombieAttackGoal);
@@ -98,11 +93,5 @@ public class DogHeadedWarrior extends Zombie {
     protected void defineSynchedData() {
         super.defineSynchedData();
         this.entityData.define(ATTACKING, false);
-    }
-
-    private void resetAnimations() {
-        this.idle.stop();
-        this.walk.stop();
-        this.attack.stop();
     }
 }

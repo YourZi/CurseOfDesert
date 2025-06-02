@@ -13,7 +13,7 @@ import net.minecraft.world.entity.Entity;
 import top.yourzi.curse_of_desert.Entities.client.animation.ScarabBeetleAnimation;
 
 public class ScarabBeetleModel<T extends Entity> extends HierarchicalModel<T> {
-	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
+	
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("curse_of_desert", "scarab"), "main");
 	private final ModelPart root;
 	private final ModelPart body;

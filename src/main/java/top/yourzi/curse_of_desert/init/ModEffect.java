@@ -7,7 +7,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import top.yourzi.curse_of_desert.Curseofdesert;
-import top.yourzi.curse_of_desert.Effects.*;;
+import top.yourzi.curse_of_desert.Effects.*;
 
 public class ModEffect {
     public static final DeferredRegister<MobEffect> EFFECTS =

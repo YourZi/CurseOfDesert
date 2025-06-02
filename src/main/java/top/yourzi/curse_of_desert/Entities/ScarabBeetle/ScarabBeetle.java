@@ -51,6 +51,7 @@ public class ScarabBeetle extends Monster {
                 .add(Attributes.MOVEMENT_SPEED, 0.35)
                 .add(Attributes.ATTACK_DAMAGE, 4.0)
                 .add(Attributes.ARMOR, 2.0)
+                .add(Attributes.ATTACK_KNOCKBACK, 1.0)
                 .add(Attributes.MAX_HEALTH, 18.0);
     }
 

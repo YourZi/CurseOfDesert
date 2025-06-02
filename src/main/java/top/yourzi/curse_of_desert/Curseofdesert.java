@@ -1,6 +1,5 @@
 package top.yourzi.curse_of_desert;
 
-import com.mojang.logging.LogUtils;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraftforge.common.MinecraftForge;
@@ -8,7 +7,6 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
-import org.slf4j.Logger;
 
 import top.yourzi.curse_of_desert.init.ModBlocks;
 import top.yourzi.curse_of_desert.init.ModCreativeTab;
@@ -22,7 +20,6 @@ import top.yourzi.curse_of_desert.init.ModSounds;
 public class Curseofdesert {
 
     public static final String MOD_ID = "curse_of_desert";
-    private static final Logger LOGGER = LogUtils.getLogger();
 
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS = DeferredRegister.create(Registries.CREATIVE_MODE_TAB, MOD_ID);
 

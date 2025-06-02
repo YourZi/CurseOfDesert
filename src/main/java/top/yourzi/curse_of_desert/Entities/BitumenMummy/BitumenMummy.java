@@ -97,17 +97,14 @@ public class BitumenMummy extends Mummy implements RangedAttackMob {
     public boolean hurt(DamageSource pSource, float pAmount) {
         if (this.hasBottle()) {
             this.setHasBottle(false);
-            // 播放玻璃破碎音效
             this.level().playSound(null, this.getX(), this.getY(), this.getZ(),
                 ModSounds.BOTTLE_BREAK.get(),
                 net.minecraft.sounds.SoundSource.NEUTRAL, 1.0F, 1.0F);
-                // 生成沥青
                 if (!this.level().isClientSide) {
                     Bitumen bitumen = new Bitumen(ModEntities.BITUMEN.get(), this.level());
                     bitumen.setPos(this.getX(), this.getY(), this.getZ());
                     this.level().addFreshEntity(bitumen);
                 }
-                // 生成玻璃破碎和黑色粒子效果
             for(int i = 0; i < 50; ++i) {
                 this.level().addParticle(
                     new net.minecraft.core.particles.BlockParticleOption(

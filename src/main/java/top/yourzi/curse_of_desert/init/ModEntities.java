@@ -13,6 +13,7 @@ import top.yourzi.curse_of_desert.Entities.ScarabBeetle.ScarabBeetle;
 import top.yourzi.curse_of_desert.Entities.BitumenMummy.BitumenMummy;
 import top.yourzi.curse_of_desert.Entities.Bitumen.Bitumen;
 import top.yourzi.curse_of_desert.Entities.DogHeadedWarrior.DogHeadedWarrior;
+import top.yourzi.curse_of_desert.Entities.GiantScorpion.GiantScorpion;
 
 public class ModEntities {
 
@@ -56,6 +57,12 @@ public class ModEntities {
             () -> EntityType.Builder.of(DogHeadedWarrior::new, MobCategory.MONSTER)
                     .sized(0.6f, 1.8f)
                     .build("dog_headed_warrior"));
+                    
+    public static final RegistryObject<EntityType<GiantScorpion>> GIANT_SCORPION =
+            ENTITY_TYPES.register("giant_scorpion",
+            () -> EntityType.Builder.of(GiantScorpion::new, MobCategory.MONSTER)
+                    .sized(2.2f, 1.2f)
+                    .build("giant_scorpion"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

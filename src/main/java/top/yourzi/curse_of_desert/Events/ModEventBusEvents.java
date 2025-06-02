@@ -5,6 +5,7 @@ import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import top.yourzi.curse_of_desert.Curseofdesert;
 import top.yourzi.curse_of_desert.Entities.DogHeadedWarrior.DogHeadedWarrior;
+import top.yourzi.curse_of_desert.Entities.GiantScorpion.GiantScorpion;
 import top.yourzi.curse_of_desert.Entities.Mummy.Mummy;
 import top.yourzi.curse_of_desert.Entities.ScarabBeetle.ScarabBeetle;
 import top.yourzi.curse_of_desert.init.ModEntities;
@@ -18,5 +19,6 @@ public class ModEventBusEvents {
         event.put(ModEntities.SCARAB_BEETLE.get(), ScarabBeetle.createAttributes().build());
         event.put(ModEntities.BITUMEN_MUMMY.get(), Mummy.createAttributes().build());
         event.put(ModEntities.DOG_HEADED_WARRIOR.get(), DogHeadedWarrior.createAttributes().build());
+        event.put(ModEntities.GIANT_SCORPION.get(), GiantScorpion.createAttributes().build());
     }
 }

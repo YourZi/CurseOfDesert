@@ -17,7 +17,7 @@ public class BitumenBottleModel extends EntityModel<BitumenBottle> {
     @Override
     public void setupAnim(BitumenBottle entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
     }
-  // This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
+  
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("curse_of_desert", "textures/entity/mummy"), "main");
 	private final ModelPart bottle;
 

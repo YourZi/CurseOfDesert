@@ -20,7 +20,7 @@ public class ModItems {
         () -> new BronzeHandAxeItem(new Item.Properties()));
 
     public static final RegistryObject<Item> BITUMEN_BOTTLE_ITEM = ITEMS.register("bitumen_bottle_item",
-            () -> new BitumenBottleItem(new Item.Properties()));
+            () -> new BitumenBottleItem());
 
     public static final RegistryObject<Item> SAND_EYE = ITEMS.register("sand_eye",
             () -> new SandEyeItem(new Item.Properties().stacksTo(16).rarity(Rarity.RARE)));
@@ -37,6 +37,9 @@ public class ModItems {
 
     public static final RegistryObject<Item> DOG_HEADED_WARRIOR_EGG = ITEMS.register("dog_headed_warrior_spawn_egg",
             () -> new ForgeSpawnEggItem(ModEntities.DOG_HEADED_WARRIOR, 0xFFFFFF, 0xFFFFFF, new Item.Properties()));
+
+    public static final RegistryObject<Item> GIANT_SCORPION_EGG = ITEMS.register("giant_scorpion_spawn_egg",
+            () -> new ForgeSpawnEggItem(ModEntities.GIANT_SCORPION, 0x8B4513, 0x000000, new Item.Properties()));
 
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);

@@ -7,7 +7,7 @@ import net.minecraft.world.item.UseAnim;
 
 public class BitumenBottleItem extends Item {
 
-    public BitumenBottleItem(Properties properties) {
+    public BitumenBottleItem() {
         super(new Properties()
            .craftRemainder(Items.GLASS_BOTTLE)
         );
