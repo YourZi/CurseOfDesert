@@ -5,11 +5,13 @@ import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.ZombieAttackGoal;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Zombie;
@@ -17,6 +19,7 @@ import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 
 import top.yourzi.curse_of_desert.Entities.ai.DogHeadedPriestsAttackGoal;
+import top.yourzi.curse_of_desert.Entities.ai.DogHeadedPriestsAttackCircleGoal;
 import top.yourzi.curse_of_desert.Events.CurseOfDesertEventHandler;
 import top.yourzi.curse_of_desert.AttackEvent.CurseOfDesertEvent;
 
@@ -32,7 +35,7 @@ public class DogHeadedPriests extends Zombie {
     public final AnimationState heal = new AnimationState();
 
     public int attackAnimationTimeout = 0;
-    public int healAnimationTimeout = 0;
+    public int healAnimationTimeout = 34; // 修改为34，与其他统一
 
     public DogHeadedPriests(EntityType<? extends Zombie> pEntityType, Level pLevel) {
         super(pEntityType, pLevel);
@@ -63,9 +66,17 @@ public class DogHeadedPriests extends Zombie {
         super.registerGoals();
         this.goalSelector.getAvailableGoals().removeIf(goal -> goal.getGoal() instanceof ZombieAttackGoal);
 
+        // 添加治疗AI
         this.goalSelector.addGoal(1, new DogHeadedPriestsAttackGoal(this));
+        
+        // 添加攻击圈AI
+        this.goalSelector.addGoal(2, new DogHeadedPriestsAttackCircleGoal(this));
 
-        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 5.0F, 1.0D, 1.0D));
+        // 保持与玩家的距离
+        this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, Player.class, 5.0F, 1.0D, 1.0D));
+        
+        // 添加目标选择AI
+        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
     }
 
 
@@ -81,7 +92,7 @@ public class DogHeadedPriests extends Zombie {
     private void setupAnimationStates() {
         if (this.isAttacking()) {
             if (attackAnimationTimeout <= 0) {
-                attackAnimationTimeout = 20;
+                attackAnimationTimeout = 30; // 增加攻击动画时间，与施法时间匹配
                 this.attack.start(this.tickCount);
             } else {
                 --this.attackAnimationTimeout;

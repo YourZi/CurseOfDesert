@@ -1,8 +1,10 @@
 package top.yourzi.curse_of_desert.Events;
 
 
+import net.minecraft.client.Minecraft;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.EntityRenderersEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import top.yourzi.curse_of_desert.Curseofdesert;
@@ -19,7 +21,10 @@ import top.yourzi.curse_of_desert.Entities.client.render.DogHeadedWarriorRendere
 import top.yourzi.curse_of_desert.Entities.client.render.GiantScorpionRenderer;
 import top.yourzi.curse_of_desert.Entities.client.render.MummyRenderer;
 import top.yourzi.curse_of_desert.Entities.client.render.ScarabBeetleRenderer;
+import top.yourzi.curse_of_desert.Entities.ExplosionCircle.ExplosionCircleRenderer;
+import top.yourzi.curse_of_desert.client.particle.HealingParticle;
 import top.yourzi.curse_of_desert.init.ModEntities;
+import top.yourzi.curse_of_desert.init.ModParticles;
 
 @Mod.EventBusSubscriber(modid = Curseofdesert.MOD_ID, value = Dist.CLIENT, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModEventBusClientEvents {
@@ -46,5 +51,14 @@ public class ModEventBusClientEvents {
         event.registerEntityRenderer(ModEntities.DOG_HEADED_WARRIOR.get(), DogHeadedWarriorRenderer::new);
         event.registerEntityRenderer(ModEntities.DOG_HEADED_PRIESTS.get(), DogHeadedPriestsRenderer::new);
         event.registerEntityRenderer(ModEntities.GIANT_SCORPION.get(), GiantScorpionRenderer::new);
+        event.registerEntityRenderer(ModEntities.EXPLOSION_CIRCLE.get(), ExplosionCircleRenderer::new);
+    }
+    
+    @SubscribeEvent
+    public static void registerParticleFactories(RegisterParticleProvidersEvent event) {
+        Minecraft.getInstance().particleEngine.register(
+                ModParticles.HEALING_PARTICLE.get(),
+                HealingParticle.Provider::new
+        );
     }
 }

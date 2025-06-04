@@ -15,6 +15,7 @@ import top.yourzi.curse_of_desert.Entities.Bitumen.Bitumen;
 import top.yourzi.curse_of_desert.Entities.DogHeadedWarrior.DogHeadedWarrior;
 import top.yourzi.curse_of_desert.Entities.DogHeadedPriests.DogHeadedPriests;
 import top.yourzi.curse_of_desert.Entities.GiantScorpion.GiantScorpion;
+import top.yourzi.curse_of_desert.Entities.ExplosionCircle.ExplosionCircle;
 
 public class ModEntities {
 
@@ -70,6 +71,14 @@ public class ModEntities {
             () -> EntityType.Builder.of(DogHeadedPriests::new, MobCategory.MONSTER)
                     .sized(0.6f, 1.8f)
                     .build("dog_headed_priests"));
+                    
+    public static final RegistryObject<EntityType<ExplosionCircle>> EXPLOSION_CIRCLE =
+            ENTITY_TYPES.register("explosion_circle",
+            () -> EntityType.Builder.<ExplosionCircle>of(ExplosionCircle::new, MobCategory.MISC)
+                    .sized(2.0f, 0.5f)
+                    .clientTrackingRange(8)
+                    .updateInterval(1)
+                    .build("explosion_circle"));
 
     public static void register(IEventBus eventBus) {
         ENTITY_TYPES.register(eventBus);

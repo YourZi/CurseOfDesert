@@ -2,11 +2,10 @@ package top.yourzi.curse_of_desert.Entities.ai;
 
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.goal.Goal;
-import net.minecraft.world.entity.player.Player;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.core.particles.ParticleTypes;
 import top.yourzi.curse_of_desert.Entities.DogHeadedPriests.DogHeadedPriests;
 import top.yourzi.curse_of_desert.Entities.DogHeadedWarrior.DogHeadedWarrior;
+import top.yourzi.curse_of_desert.init.ModParticles;
 
 import java.util.EnumSet;
 import java.util.List;
@@ -46,27 +45,6 @@ public class DogHeadedPriestsAttackGoal extends Goal {
         this.entity.getNavigation().stop();
         if (this.targetToHeal != null) {
             this.entity.getLookControl().setLookAt(this.targetToHeal, 30.0F, 30.0F);
-        }
-        
-        // 在狗头人祭司自身上方生成附魔粒子圆环
-        if (this.entity.level() instanceof ServerLevel serverLevel) {
-            double priestX = this.entity.getX();
-            double priestY = this.entity.getY() + 2.2D;
-            double priestZ = this.entity.getZ();
-            
-            // 生成圆环状的附魔粒子
-            int particleCount = 32; // 圆环粒子数量
-            double radius = 0.8D; // 圆环半径
-            
-            for (int i = 0; i < particleCount; i++) {
-                double angle = 2 * Math.PI * i / particleCount;
-                double offsetX = Math.cos(angle) * radius;
-                double offsetZ = Math.sin(angle) * radius;
-                
-                serverLevel.sendParticles(ParticleTypes.ENCHANT, 
-                    priestX + offsetX, priestY, priestZ + offsetZ, 
-                    2, 0.0D, 0.0D, 0.01D, 0.05D);
-            }
         }
     }
 
@@ -122,7 +100,7 @@ public class DogHeadedPriestsAttackGoal extends Goal {
                 double targetX = this.targetToHeal.getX();
                 double targetY = this.targetToHeal.getY(0.8D);
                 double targetZ = this.targetToHeal.getZ();
-                serverLevel.sendParticles(ParticleTypes.ENCHANT, targetX, targetY, targetZ, 20, 0.5D, 0.7D, 0.5D, 0.05D);
+                serverLevel.sendParticles(ModParticles.HEALING_PARTICLE.get(), targetX, targetY, targetZ, 20, 0.5D, 0.7D, 0.5D, 0.05D);
             }
         }
     }
