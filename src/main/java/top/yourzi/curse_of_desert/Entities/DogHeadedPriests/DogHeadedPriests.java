@@ -10,6 +10,8 @@ import net.minecraft.world.entity.Pose;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.ZombieAttackGoal;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.monster.Zombie;
 import net.minecraft.world.level.Level;
@@ -61,7 +63,10 @@ public class DogHeadedPriests extends Zombie {
     protected void registerGoals() {
         super.registerGoals();
         this.goalSelector.getAvailableGoals().removeIf(goal -> goal.getGoal() instanceof ZombieAttackGoal);
-        this.goalSelector.addGoal(1, new DogHeadedPriestsAttackGoal(this, 1.0D, true));
+
+        this.goalSelector.addGoal(1, new DogHeadedPriestsAttackGoal(this));
+
+        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 5.0F, 1.0D, 1.0D));
     }
 
 
@@ -75,18 +80,44 @@ public class DogHeadedPriests extends Zombie {
     }
 
     private void setupAnimationStates() {
-        if(this.isAttacking() && attackAnimationTimeout <= 0) {
-            attackAnimationTimeout = 20;
-            attack.start(this.tickCount);
+        // Attack Animation
+        if (this.isAttacking()) {
+            if (attackAnimationTimeout <= 0) {
+                attackAnimationTimeout = 20; // Duration of attack animation
+                this.attack.start(this.tickCount);
+            } else {
+                --this.attackAnimationTimeout;
+            }
         } else {
-            --this.attackAnimationTimeout;
+            this.attack.stop();
+            attackAnimationTimeout = 0;
         }
 
-        if(this.isHealing() && healAnimationTimeout <= 0) {
-            healAnimationTimeout = 30;
-            heal.start(this.tickCount);
+
+        if (this.isHealing()) {
+            if (healAnimationTimeout <= 0) {
+                healAnimationTimeout = 45;
+                this.heal.start(this.tickCount);
+            } else if (this.heal.isStarted()) {
+                --this.healAnimationTimeout;
+            }
         } else {
-            --this.healAnimationTimeout;
+            this.heal.stop();
+            healAnimationTimeout = 0;
+        }
+
+
+        if (!this.isAttacking() && !this.isHealing()) {
+            if (this.walkAnimation.isMoving()) {
+                this.walk.startIfStopped(this.tickCount);
+                this.idle.stop();
+            } else {
+                this.idle.startIfStopped(this.tickCount);
+                this.walk.stop();
+            }
+        } else {
+            this.idle.stop();
+            this.walk.stop();
         }
     }
 

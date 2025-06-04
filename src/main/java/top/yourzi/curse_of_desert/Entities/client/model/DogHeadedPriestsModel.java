@@ -23,6 +23,7 @@ import top.yourzi.curse_of_desert.Entities.client.animation.DogHeadedPriestsAnim
 public class DogHeadedPriestsModel<T extends Entity> extends HierarchicalModel<T>{
 	// This layer location should be baked with EntityRendererProvider.Context in the entity renderer and passed into this model's constructor
 	public static final ModelLayerLocation LAYER_LOCATION = new ModelLayerLocation(new ResourceLocation("curse_of_desert", "textures/entity/dog_headed_priests.png"), "main");
+	private final ModelPart root;
 	private final ModelPart body;
 	private final ModelPart left_arm;
 	private final ModelPart left_hand;
@@ -34,23 +35,26 @@ public class DogHeadedPriestsModel<T extends Entity> extends HierarchicalModel<T
 	private final ModelPart right_leg;
 
 	public DogHeadedPriestsModel(ModelPart root) {
-		this.body = root.getChild("body");
+		this.root = root.getChild("root");
+		this.body = this.root.getChild("body");
 		this.left_arm = this.body.getChild("left_arm");
 		this.left_hand = this.left_arm.getChild("left_hand");
 		this.right_arm = this.body.getChild("right_arm");
 		this.right_hand = this.right_arm.getChild("right_hand");
 		this.bone = this.right_hand.getChild("bone");
 		this.head = this.body.getChild("head");
-		this.left_leg = root.getChild("left_leg");
-		this.right_leg = root.getChild("right_leg");
+		this.left_leg = this.root.getChild("left_leg");
+		this.right_leg = this.root.getChild("right_leg");
 	}
 
 	public static LayerDefinition createBodyLayer() {
 		MeshDefinition meshdefinition = new MeshDefinition();
 		PartDefinition partdefinition = meshdefinition.getRoot();
 
-		PartDefinition body = partdefinition.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 25).addBox(-4.0F, -14.5F, -2.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(-0.01F))
-		.texOffs(0, 41).addBox(-4.0F, -4.5F, -2.0F, 8.0F, 6.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.offset(0.0F, 13.5F, 0.0F));
+		PartDefinition root = partdefinition.addOrReplaceChild("root", CubeListBuilder.create(), PartPose.offset(0.0F, 24.0F, 0.0F));
+
+		PartDefinition body = root.addOrReplaceChild("body", CubeListBuilder.create().texOffs(0, 25).addBox(-4.0F, -14.5F, -2.0F, 8.0F, 12.0F, 4.0F, new CubeDeformation(-0.01F))
+		.texOffs(0, 41).addBox(-4.0F, -4.5F, -2.0F, 8.0F, 6.0F, 4.0F, new CubeDeformation(0.25F)), PartPose.offset(0.0F, -10.5F, 0.0F));
 
 		PartDefinition left_arm = body.addOrReplaceChild("left_arm", CubeListBuilder.create().texOffs(24, 27).mirror().addBox(-1.0F, -1.0F, -1.0F, 2.0F, 12.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
 		.texOffs(0, 54).mirror().addBox(-1.0F, 2.0F, -1.0F, 2.0F, 8.0F, 2.0F, new CubeDeformation(0.25F)).mirror(false), PartPose.offset(5.0F, -13.5F, 0.0F));
@@ -75,11 +79,11 @@ public class DogHeadedPriestsModel<T extends Entity> extends HierarchicalModel<T
 
 		PartDefinition cube_r3 = head.addOrReplaceChild("cube_r3", CubeListBuilder.create().texOffs(32, 8).mirror().addBox(0.0F, -4.0F, -2.0F, 0.0F, 4.0F, 4.0F, new CubeDeformation(0.0F)).mirror(false), PartPose.offsetAndRotation(3.6F, -7.7F, 0.0F, 0.0F, 0.5236F, 0.2618F));
 
-		PartDefinition left_leg = partdefinition.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(24, 27).mirror().addBox(-1.0F, 0.0F, -1.0F, 2.0F, 13.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
-		.texOffs(8, 58).mirror().addBox(-1.0F, 8.0F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(0.25F)).mirror(false), PartPose.offset(2.0F, 11.0F, 0.0F));
+		PartDefinition left_leg = root.addOrReplaceChild("left_leg", CubeListBuilder.create().texOffs(24, 27).mirror().addBox(-1.0F, 0.0F, -1.0F, 2.0F, 13.0F, 2.0F, new CubeDeformation(0.0F)).mirror(false)
+		.texOffs(8, 58).mirror().addBox(-1.0F, 8.0F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(0.25F)).mirror(false), PartPose.offset(2.0F, -13.0F, 0.0F));
 
-		PartDefinition right_leg = partdefinition.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(24, 27).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 13.0F, 2.0F, new CubeDeformation(0.0F))
-		.texOffs(8, 58).addBox(-1.0F, 8.0F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(0.25F)), PartPose.offset(-2.0F, 11.0F, 0.0F));
+		PartDefinition right_leg = root.addOrReplaceChild("right_leg", CubeListBuilder.create().texOffs(24, 27).addBox(-1.0F, 0.0F, -1.0F, 2.0F, 13.0F, 2.0F, new CubeDeformation(0.0F))
+		.texOffs(8, 58).addBox(-1.0F, 8.0F, -1.0F, 2.0F, 4.0F, 2.0F, new CubeDeformation(0.25F)), PartPose.offset(-2.0F, -13.0F, 0.0F));
 
 		return LayerDefinition.create(meshdefinition, 64, 64);
 	}
@@ -94,21 +98,22 @@ public class DogHeadedPriestsModel<T extends Entity> extends HierarchicalModel<T
 
 	@Override
     public void setupAnim(Entity entity, float limbSwing, float limbSwingAmount, float ageInTicks, float netHeadYaw, float headPitch) {
-        this.body.getAllParts().forEach(ModelPart::resetPose);
+        this.root.getAllParts().forEach(ModelPart::resetPose);
         this.applyHeadRotation(netHeadYaw, headPitch, ageInTicks);
 
         this.animateWalk(DogHeadedPriestsAnimation.walk, limbSwing, limbSwingAmount, 2f, 2.5f);
 
         this.animate(((DogHeadedPriests) entity).attack, DogHeadedPriestsAnimation.attack, ageInTicks, 1f);
+        this.animate(((DogHeadedPriests) entity).heal, DogHeadedPriestsAnimation.heal, ageInTicks, 1f);
 	}
 
 	@Override
 	public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
-		body.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
+		root.render(poseStack, vertexConsumer, packedLight, packedOverlay, red, green, blue, alpha);
 	}
 
 	@Override
 	public ModelPart root() {
-		return body;
+		return root;
 	}
 }

@@ -26,6 +26,7 @@ public class ModCreativeTab {
                         pOutput.accept(ModItems.BITUMEN_MUMMY_EGG.get());
                         pOutput.accept(ModItems.SCARAB_BEETLE_EGG.get());
                         pOutput.accept(ModItems.DOG_HEADED_WARRIOR_EGG.get());
+                        pOutput.accept(ModItems.DOG_HEADED_PRIESTS_EGG.get());
                         pOutput.accept(ModItems.GIANT_SCORPION_EGG.get());
                     })
                     .build());

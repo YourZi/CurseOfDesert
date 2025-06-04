@@ -20,13 +20,13 @@ public class GiantScorpionRenderer extends MobRenderer<GiantScorpion, GiantScorp
 
     public GiantScorpionRenderer(EntityRendererProvider.Context context) {
         super(context, new GiantScorpionModel<>(context.bakeLayer(GiantScorpionModel.LAYER_LOCATION)), 0.8f);
-        
+        /*
         this.addLayer(new EyesLayer<>(this) {
             @Override
             public @NotNull RenderType renderType() {
                 return RenderType.eyes(new ResourceLocation(Curseofdesert.MOD_ID,"textures/entity/giant_scorpion_overlay.png"));
             }
-        });
+        }); */
         this.addLayer(new GiantScorpionItemLayer(this, context.getItemInHandRenderer()));
     }
 
