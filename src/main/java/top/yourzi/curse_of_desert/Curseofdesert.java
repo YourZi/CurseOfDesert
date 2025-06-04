@@ -15,6 +15,7 @@ import top.yourzi.curse_of_desert.init.ModEntities;
 import top.yourzi.curse_of_desert.init.ModItems;
 import top.yourzi.curse_of_desert.init.ModParticles;
 import top.yourzi.curse_of_desert.init.ModSounds;
+import top.yourzi.curse_of_desert.init.ModStructures;
 
 
 @Mod(Curseofdesert.MOD_ID)
@@ -37,6 +38,7 @@ public class Curseofdesert {
         ModEffect.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModParticles.register(modEventBus);
+        //ModStructures.register(modEventBus);
 
     }
 

@@ -32,6 +32,8 @@ public class DesertSandstormRenderer {
      * 客户端Tick事件处理器
      * 在玩家处于沙漠诅咒事件范围内时生成沙尘粒子
      */
+    // 暂时注释掉沙暴粒子效果
+    /*
     @SubscribeEvent
     public static void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase != TickEvent.Phase.END) return;
@@ -60,6 +62,7 @@ public class DesertSandstormRenderer {
             spawnSandstormParticles(level, player);
         }
     }
+    */
     /**
      * 在玩家周围生成沙尘暴粒子
      */

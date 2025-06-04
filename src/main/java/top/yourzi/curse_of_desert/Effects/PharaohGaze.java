@@ -42,6 +42,8 @@ public class PharaohGaze extends MobEffect {
     private static float fogDensityOffset = 0.0f;
     private static long lastUpdateTime = 0;
 
+    // 暂时注释掉沙暴迷雾效果
+    /*
     @SubscribeEvent(priority = net.minecraftforge.eventbus.api.EventPriority.HIGHEST)
     public static void onRenderFog(ViewportEvent.RenderFog event) {
         Player player = net.minecraft.client.Minecraft.getInstance().player;
@@ -80,4 +82,5 @@ public class PharaohGaze extends MobEffect {
             }
         }
     }
+    */
 }

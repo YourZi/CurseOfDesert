@@ -11,7 +11,6 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResultHolder;
-import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
@@ -76,7 +75,6 @@ public class SandEyeItem extends Item {
                 CurseOfDesertEvent event = new CurseOfDesertEvent(serverLevel, pos);
                 CurseOfDesertEventHandler.setCurrentEvent(event);
                 ServerPlayer serverPlayer = (ServerPlayer) player;
-                stack.getOrCreateTag().putBoolean("glowing", false);
                 stack.shrink(serverPlayer.gameMode.isCreative() ? 0 : 1);
                 return stack;
             }

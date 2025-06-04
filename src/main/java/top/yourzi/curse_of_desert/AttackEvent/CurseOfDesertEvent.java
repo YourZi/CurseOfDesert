@@ -117,9 +117,10 @@ public class CurseOfDesertEvent {
     
             if (isActive && currentWave <= 0){
                 startNextWave();
-            }
-    
-            if (isCurrentWaveCleared()) {
+                // 刚开始第一波时，不要立即检查是否清理完毕
+                // 因为实体还在生成队列中，尚未真正生成
+            } else if (isCurrentWaveCleared() && entitySpawnQueue.isEmpty()) {
+                // 只有当实体生成队列为空（所有实体都已生成）且当前波次已清理完毕时，才进入下一波
                 if (currentWave < totalWaves) {
                     float currentProgress = bossEvent.getProgress();
                     if (currentProgress < 1.0F) {
@@ -184,11 +185,6 @@ public class CurseOfDesertEvent {
                 currentHealthSum += entity.getHealth();
                 aliveEntities.add(entity);
             }
-        }
-        
-        if (aliveEntities.size() == 1 && currentWave > 0) {
-            LivingEntity lastEntity = aliveEntities.get(0);
-            lastEntity.addEffect(new MobEffectInstance(MobEffects.GLOWING, 1200, 0, false, true));
         }
         
         if (maxHealthSum > maxHealthRecord) {
