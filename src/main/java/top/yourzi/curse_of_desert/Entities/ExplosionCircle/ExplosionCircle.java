@@ -27,7 +27,7 @@ public class ExplosionCircle extends Entity {
     private LivingEntity owner;
     private LivingEntity target;
     private final float explosionRadius = 2.0F;
-    private final float maxDamage = 16.0F;
+    private final float maxDamage = 10.0F;
     private final int maxLifeTime = 55;
     private final int followTime = 40;
     
@@ -50,6 +50,27 @@ public class ExplosionCircle extends Entity {
         this.entityData.define(FOLLOWING_TARGET, true);
     }
     
+    /**
+     * 获取爆炸计时器的当前值
+     */
+    public int getExplosionTimer() {
+        return this.entityData.get(EXPLOSION_TIMER);
+    }
+    
+    /**
+     * 获取最大生命周期
+     */
+    public int getMaxLifeTime() {
+        return this.maxLifeTime;
+    }
+    
+    // 添加一个字段来存储当前的目标位置，用于平滑移动
+    private Vec3 smoothTargetPos = Vec3.ZERO;
+    // 添加一个字段来存储上一帧的移动向量，用于实现惯性
+    private Vec3 previousMovement = Vec3.ZERO;
+    // 添加一个计数器，用于控制每两刻计算一次移动向量
+    private int movementCalculationTicks = 0;
+    
     @Override
     public void tick() {
         super.tick();
@@ -64,40 +85,98 @@ public class ExplosionCircle extends Entity {
         int timer = this.entityData.get(EXPLOSION_TIMER);
         this.entityData.set(EXPLOSION_TIMER, timer - 1);
         
+        // 生成火焰圆环粒子
+        if (this.level() instanceof ServerLevel serverLevel) {
+            float radius = 1.5F;
+            int particleCount = 16; // 粒子数量，决定圆环的密度
+            
+            for (int i = 0; i < particleCount; i++) {
+                double angle = 2.0 * Math.PI * i / particleCount;
+                double x = this.getX() + radius * Math.cos(angle);
+                double z = this.getZ() + radius * Math.sin(angle);
+                
+                // 添加一些随机性，使圆环看起来更自然
+                double offsetX = (this.random.nextDouble() - 0.5) * 0.2;
+                double offsetY = (this.random.nextDouble() - 0.5) * 0.2;
+                double offsetZ = (this.random.nextDouble() - 0.5) * 0.2;
+                
+                serverLevel.sendParticles(
+                    ParticleTypes.FLAME,
+                    x, this.getY(), z,
+                    1,
+                    offsetX, offsetY + 0.1, offsetZ,
+                    0.002
+                );
+            }
+        }
+        
         // 跟随目标移动
         if (this.entityData.get(FOLLOWING_TARGET) && target != null && target.isAlive()) {
-            Vec3 targetPos = new Vec3(target.getX(), target.getY(), target.getZ());
-            Vec3 currentPos = this.position();
-            Vec3 movement = targetPos.subtract(currentPos).normalize().scale(0.3);
-            this.setDeltaMovement(movement);
-            this.move(MoverType.SELF, this.getDeltaMovement());
+            // 更新移动计算计数器
+            movementCalculationTicks++;
+            
+            // 每两刻计算一次移动向量
+            if (movementCalculationTicks >= 2) {
+                movementCalculationTicks = 0;
+                
+                // 获取目标位置
+                Vec3 targetPos = new Vec3(target.getX(), target.getY(), target.getZ());
+                Vec3 currentPos = this.position();
+                
+                // 平滑插值计算目标位置
+                if (smoothTargetPos.equals(Vec3.ZERO)) {
+                    // 第一次初始化
+                    smoothTargetPos = targetPos;
+                } else {
+                    // 平滑插值，使目标位置逐渐接近实际目标位置
+                    float smoothFactor = 0.2F; // 平滑因子，值越小移动越平滑
+                    smoothTargetPos = smoothTargetPos.lerp(targetPos, smoothFactor);
+                }
+                
+                // 计算移动向量
+                Vec3 direction = smoothTargetPos.subtract(currentPos);
+                double distance = direction.length();
+                
+                // 获取目标当前移速的80%
+                Vec3 targetMovement = target.getDeltaMovement();
+                double targetSpeed = targetMovement.length();
+                
+                // 如果目标几乎不动，设置一个最小速度
+                if (targetSpeed < 0.05) {
+                    targetSpeed = 0.05;
+                }
+                
+                Vec3 movement;
+                
+                if (distance > 0.05) { // 只有当距离足够大时才移动
+                    movement = direction.normalize().scale(targetSpeed);
+                    
+                    // 添加惯性，保留一部分之前的速度
+                    float inertiaFactor = 0.4F; // 惯性因子
+                    movement = movement.scale(1 - inertiaFactor).add(previousMovement.scale(inertiaFactor));
+                    
+                    this.setDeltaMovement(movement);
+                    this.move(MoverType.SELF, this.getDeltaMovement());
+                    
+                    // 保存当前移动向量用于下一帧
+                    previousMovement = movement;
+                } else {
+                    // 距离很小时，减小移动速度
+                    this.setDeltaMovement(Vec3.ZERO);
+                    previousMovement = previousMovement.scale(0.5);
+                }
+            } else {
+                // 非计算帧，继续使用之前的移动向量
+                this.move(MoverType.SELF, this.getDeltaMovement());
+            }
         } else {
             this.setDeltaMovement(Vec3.ZERO);
+            previousMovement = Vec3.ZERO;
         }
         
         // 2秒后停止跟随
         if (timer <= maxLifeTime - followTime && this.entityData.get(FOLLOWING_TARGET)) {
             this.entityData.set(FOLLOWING_TARGET, false);
-        }
-        
-        // 生成粒子效果
-        if (this.level() instanceof ServerLevel serverLevel) {
-            double circleRadius = 1.0;
-            int particleCount = 16;
-            
-            for (int i = 0; i < particleCount; i++) {
-                double angle = 2 * Math.PI * i / particleCount;
-                double offsetX = Math.cos(angle) * circleRadius;
-                double offsetZ = Math.sin(angle) * circleRadius;
-                
-                serverLevel.sendParticles(
-                    ParticleTypes.FLAME,
-                    this.getX() + offsetX, 
-                    this.getY() + 0.1, 
-                    this.getZ() + offsetZ,
-                    1, 0.0D, 0.0D, 0.0D, 0.0D
-                );
-            }
         }
         
         // 爆炸
@@ -120,7 +199,7 @@ public class ExplosionCircle extends Entity {
         if (this.level() instanceof ServerLevel serverLevel) {
             serverLevel.sendParticles(
                 ParticleTypes.EXPLOSION_EMITTER,
-                this.getX(), this.getY() + 0.5, this.getZ(),
+                this.getX(), this.getY() + 0.2, this.getZ(),
                 1, 0.0D, 0.0D, 0.0D, 0.0D
             );
         }

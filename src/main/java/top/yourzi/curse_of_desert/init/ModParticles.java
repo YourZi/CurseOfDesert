@@ -15,7 +15,7 @@ public class ModParticles {
     // 注册治疗粒子效果
     public static final RegistryObject<SimpleParticleType> HEALING_PARTICLE =
             PARTICLE_TYPES.register("healing_particle",
-                    () -> new SimpleParticleType(false)); // false表示粒子不受重力影响
+                    () -> new SimpleParticleType(false));
 
     public static void register(IEventBus eventBus) {
         PARTICLE_TYPES.register(eventBus);

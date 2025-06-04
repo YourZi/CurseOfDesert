@@ -67,16 +67,13 @@ public class DogHeadedPriests extends Zombie {
         this.goalSelector.getAvailableGoals().removeIf(goal -> goal.getGoal() instanceof ZombieAttackGoal);
 
         // 添加治疗AI
-        this.goalSelector.addGoal(1, new DogHeadedPriestsAttackGoal(this));
+        this.goalSelector.addGoal(2, new DogHeadedPriestsAttackGoal(this));
         
         // 添加攻击圈AI
-        this.goalSelector.addGoal(2, new DogHeadedPriestsAttackCircleGoal(this));
+        this.goalSelector.addGoal(3, new DogHeadedPriestsAttackCircleGoal(this));
 
         // 保持与玩家的距离
-        this.goalSelector.addGoal(3, new AvoidEntityGoal<>(this, Player.class, 5.0F, 1.0D, 1.0D));
-        
-        // 添加目标选择AI
-        this.targetSelector.addGoal(1, new NearestAttackableTargetGoal<>(this, Player.class, true));
+        this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, Player.class, 5.0F, 1.8D, 1.6D));
     }
 
 
@@ -92,7 +89,7 @@ public class DogHeadedPriests extends Zombie {
     private void setupAnimationStates() {
         if (this.isAttacking()) {
             if (attackAnimationTimeout <= 0) {
-                attackAnimationTimeout = 30; // 增加攻击动画时间，与施法时间匹配
+                attackAnimationTimeout = 30;
                 this.attack.start(this.tickCount);
             } else {
                 --this.attackAnimationTimeout;

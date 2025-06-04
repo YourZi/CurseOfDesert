@@ -12,26 +12,38 @@ import top.yourzi.curse_of_desert.Entities.ExplosionCircle.ExplosionCircle;
 import top.yourzi.curse_of_desert.init.ModEntities;
 
 import java.util.EnumSet;
+import java.util.HashMap;
+import java.util.Map;
 
 public class DogHeadedPriestsAttackCircleGoal extends Goal {
     private final DogHeadedPriests entity;
     private LivingEntity target;
-    private int attackCooldown = 0;
     private int castingTime = 0;
     private final int maxCastingTime = 30; // 1.5秒的施法时间
     private final int cooldownTime = 100; // 5秒冷却时间
     private boolean isCasting = false;
     private static final double ATTACK_RANGE = 16.0D; // 攻击范围
+    private static final Map<DogHeadedPriests, Integer> ENTITY_COOLDOWNS = new HashMap<>();
     
     public DogHeadedPriestsAttackCircleGoal(DogHeadedPriests pMob) {
         this.entity = pMob;
         this.setFlags(EnumSet.of(Goal.Flag.MOVE, Goal.Flag.LOOK));
+        // 初始化实体的冷却时间
+        ENTITY_COOLDOWNS.putIfAbsent(pMob, 0);
     }
     
     @Override
     public boolean canUse() {
-        // 如果正在治疗或者冷却中，则不能使用
-        if (this.entity.isHealing() || this.entity.isAttacking() || this.attackCooldown > 0) {
+        // 如果正在治疗或者正在攻击，则不能使用
+        if (this.entity.isHealing() || this.entity.isAttacking()) {
+            return false;
+        }
+        
+        // 获取并更新攻击冷却时间
+        Integer cooldown = ENTITY_COOLDOWNS.get(this.entity);
+        if (cooldown != null && cooldown > 0) {
+            // 在canUse中递减冷却时间，确保即使AI不被选择也能倒计时
+            ENTITY_COOLDOWNS.put(this.entity, cooldown - 1);
             return false;
         }
         
@@ -66,53 +78,52 @@ public class DogHeadedPriestsAttackCircleGoal extends Goal {
     public void stop() {
         this.entity.setAttacking(false);
         this.isCasting = false;
-        this.attackCooldown = this.cooldownTime;
+        // 设置实体的冷却时间
+        ENTITY_COOLDOWNS.put(this.entity, this.cooldownTime);
     }
     
     @Override
     public void tick() {
+        // 如果目标不存在或已死亡，停止攻击
         if (this.target == null || !this.target.isAlive()) {
             this.stop();
             return;
         }
-
-        if (this.attackCooldown > 0) {
-            this.attackCooldown--;
-            return;
-        }
         
-        // 让狗头人祭司面向目标
-        this.entity.getLookControl().setLookAt(this.target, 30.0F, 30.0F);
-        
-        // 增加施法时间
-        this.castingTime++;
-        
-        // 在施法过程中生成粒子效果
-        if (this.entity.level() instanceof ServerLevel serverLevel) {
-            double entityX = this.entity.getX();
-            double entityY = this.entity.getY() + 1.5D;
-            double entityZ = this.entity.getZ();
+        // 如果正在施法，继续施法过程
+        if (this.isCasting) {
+            // 让狗头人祭司面向目标
+            this.entity.getLookControl().setLookAt(this.target, 30.0F, 30.0F);
             
-            // 生成施法粒子
-            for (int i = 0; i < 5; i++) {
-                double offsetX = (this.entity.getRandom().nextDouble() - 0.5D) * 0.5D;
-                double offsetY = (this.entity.getRandom().nextDouble() - 0.5D) * 0.5D;
-                double offsetZ = (this.entity.getRandom().nextDouble() - 0.5D) * 0.5D;
-                
-                serverLevel.sendParticles(
-                    ParticleTypes.FLAME,
-                    entityX + offsetX,
-                    entityY + offsetY,
-                    entityZ + offsetZ,
-                    1, 0.0D, 0.0D, 0.0D, 0.0D
-                );
+            // 增加施法时间
+            this.castingTime++;
+            
+            // 在施法过程中生成粒子效果
+            if (this.entity.level() instanceof ServerLevel serverLevel) {
+                double entityX = this.entity.getX();
+                double entityY = this.entity.getY() + 1.5D;
+                double entityZ = this.entity.getZ();
+
+                for (int i = 0; i < 5; i++) {
+                    double offsetX = (this.entity.getRandom().nextDouble() - 0.5D) * 0.5D;
+                    double offsetY = (this.entity.getRandom().nextDouble() - 0.5D) * 0.5D;
+                    double offsetZ = (this.entity.getRandom().nextDouble() - 0.5D) * 0.5D;
+                    
+                    serverLevel.sendParticles(
+                        ParticleTypes.FLAME,
+                        entityX + offsetX,
+                        entityY + offsetY,
+                        entityZ + offsetZ,
+                        1, 0.2D, 0.2D, 0.1D, 0.01D
+                    );
+                }
             }
-        }
-        
-        // 施法完成，释放爆炸圈
-        if (this.castingTime >= this.maxCastingTime) {
-            releaseExplosionCircle();
-            this.stop();
+            
+            // 施法完成，释放爆炸圈
+            if (this.castingTime >= this.maxCastingTime) {
+                releaseExplosionCircle();
+                this.stop();
+            }
         }
     }
     

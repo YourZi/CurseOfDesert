@@ -43,12 +43,12 @@ public class HealingParticle extends TextureSheetParticle {
             // 粒子上升
             this.yd = 0.01D;
             
-            // 粒子轻微水平移动
-            this.xd *= 0.99D;
-            this.zd *= 0.99D;
+            // 禁用水平移动
+            this.xd = 0.0D;
+            this.zd = 0.0D;
             
             // 移动粒子
-            this.move(this.xd, this.yd, this.zd);
+            this.move(0.0D, this.yd, 0.0D);
             
             // 随时间淡出
             if (this.age > this.lifetime / 2) {
