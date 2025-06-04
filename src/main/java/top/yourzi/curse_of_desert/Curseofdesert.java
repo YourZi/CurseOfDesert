@@ -38,7 +38,7 @@ public class Curseofdesert {
         ModEffect.register(modEventBus);
         ModBlocks.register(modEventBus);
         ModParticles.register(modEventBus);
-        //ModStructures.register(modEventBus);
+        ModStructures.register(modEventBus);
 
     }
 

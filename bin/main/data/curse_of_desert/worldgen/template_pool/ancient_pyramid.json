@@ -1,5 +1,5 @@
 {
-  "name": "curse_of_desert:ancient_pyramid/start",
+  "name": "curse_of_desert:ancient_pyramid",
   "fallback": "minecraft:empty",
   "elements": [
     {

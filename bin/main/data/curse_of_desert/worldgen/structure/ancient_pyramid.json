@@ -1,10 +1,10 @@
 {
   "type": "minecraft:jigsaw",
-  "biomes": "#minecraft:is_desert",
+  "biomes": "#curse_of_desert:has_structure/ancient_pyramid",
   "step": "surface_structures",
   "spawn_overrides": {},
   "terrain_adaptation": "beard_thin",
-  "start_pool": "curse_of_desert:ancient_pyramid/start",
+  "start_pool": "curse_of_desert:ancient_pyramid",
   "size": 6,
   "start_height": {
     "absolute": 0

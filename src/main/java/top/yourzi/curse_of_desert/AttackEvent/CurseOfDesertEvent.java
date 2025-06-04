@@ -334,16 +334,43 @@ public class CurseOfDesertEvent {
      * @param startPos 起始搜索位置
      * @return 有效的生成位置，如果未找到则返回null
      */
-    private BlockPos findValidSpawnPosition(BlockPos startPos) {
-        startPos = new BlockPos(startPos.getX(), Math.max(level.getMinBuildHeight(), startPos.getY() - 20), startPos.getZ());
-        
-        for (int searchHeight = 0; searchHeight < SPAWN_HEIGHT_SEARCH_RANGE; searchHeight++) {
-            BlockPos currentPos = startPos.above(searchHeight);
-            if (isValidSpawnPosition(currentPos)) {
-                return currentPos;
+    private BlockPos findValidSpawnPosition(BlockPos pos) {
+        BlockPos playerPos = pos;
+        for (int i = 0; i < 50; i++) { // 尝试50次寻找位置
+            int x = playerPos.getX() + level.random.nextInt(SPAWN_MAX_DISTANCE * 2) - SPAWN_MAX_DISTANCE;
+            int z = playerPos.getZ() + level.random.nextInt(SPAWN_MAX_DISTANCE * 2) - SPAWN_MAX_DISTANCE;
+
+            // 确保在最小生成距离之外
+            if (Math.sqrt(playerPos.distSqr(new BlockPos(x, playerPos.getY(), z))) < SPAWN_MIN_DISTANCE) {
+                continue;
+            }
+
+            for (int yOffset = SPAWN_HEIGHT_SEARCH_RANGE; yOffset >= -SPAWN_HEIGHT_SEARCH_RANGE; yOffset--) {
+                BlockPos potentialPos = new BlockPos(x, playerPos.getY() + yOffset, z);
+                if (level.getBlockState(potentialPos.below()).isSolidRender(level, potentialPos.below()) &&
+                    level.isEmptyBlock(potentialPos) &&
+                    level.isEmptyBlock(potentialPos.above())) {
+                    return potentialPos;
+                }
             }
         }
-        return null;
+        // 如果在多次尝试后仍未找到合适的位置，则在玩家附近强制生成
+        BlockPos forcedPos = playerPos.above(2);
+        if (level.isEmptyBlock(forcedPos) && level.isEmptyBlock(forcedPos.above())){
+            return forcedPos;
+        } else {
+            // 如果上方两格也不行，尝试在玩家周围随机一个近距离位置，忽略一些碰撞检测，确保生成
+            for (int i = 0; i < 10; i++) { // 尝试10次在近处生成
+                int forcedX = playerPos.getX() + level.random.nextInt(5) - 2; // -2 to +2 offset
+                int forcedZ = playerPos.getZ() + level.random.nextInt(5) - 2; // -2 to +2 offset
+                BlockPos nearPlayerPos = new BlockPos(forcedX, playerPos.getY(), forcedZ);
+                // 简化检测，只要脚下是固体，头顶是空气即可
+                if (level.getBlockState(nearPlayerPos.below()).isSolidRender(level, nearPlayerPos.below()) && level.isEmptyBlock(nearPlayerPos.above())) {
+                    return nearPlayerPos;
+                }
+            }
+            return playerPos; 
+        }
     }
 
     /**
@@ -432,7 +459,6 @@ public class CurseOfDesertEvent {
     public int getCurrentWave() { return currentWave; }
     public BlockPos getCenter() { return center; }
     public int getTotalWaves() { return totalWaves; }
-
 
     private void spawnWaveEntities() {
         switch (currentWave) {
