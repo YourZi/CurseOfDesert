@@ -22,6 +22,7 @@ import top.yourzi.curse_of_desert.Entities.ai.DogHeadedPriestsAttackGoal;
 import top.yourzi.curse_of_desert.Entities.ai.DogHeadedPriestsAttackCircleGoal;
 import top.yourzi.curse_of_desert.Events.CurseOfDesertEventHandler;
 import top.yourzi.curse_of_desert.AttackEvent.CurseOfDesertEvent;
+import top.yourzi.curse_of_desert.Entities.DogHeadedWarrior.DogHeadedWarrior;
 
 public class DogHeadedPriests extends Zombie {
     private static final EntityDataAccessor<Boolean> ATTACKING =
@@ -74,6 +75,10 @@ public class DogHeadedPriests extends Zombie {
 
         // 保持与玩家的距离
         this.goalSelector.addGoal(1, new AvoidEntityGoal<>(this, Player.class, 5.0F, 1.8D, 1.6D));
+
+        // 追寻狗头人祭司和战士
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, DogHeadedPriests.class, true));
+        this.targetSelector.addGoal(2, new NearestAttackableTargetGoal<>(this, DogHeadedWarrior.class, true));
     }
 
 
