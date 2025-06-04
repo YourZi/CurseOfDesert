@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:archaeology",
+  "pools": [
+    {
+      "bonus_rolls": 0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:arms_up_pottery_sherd",
+          "weight": 1
+        },
+        {
+          "type": "minecraft:item",
+          "name": "curse_of_desert:sand_eye",
+          "weight": 3
+        },
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:emerald"
+        }
+      ],
+      "rolls": 1
+    }
+  ],
+  "random_sequence": "minecraft:archaeology/desert_well"
+}
