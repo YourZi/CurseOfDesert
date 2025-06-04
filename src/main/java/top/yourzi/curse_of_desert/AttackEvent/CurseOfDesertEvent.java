@@ -10,7 +10,6 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.BossEvent;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.effect.MobEffectInstance;
-import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -44,7 +43,7 @@ public class CurseOfDesertEvent {
     private static final long INIT_DURATION = 7000;
     
     private long delayStartTime;
-    private static final long FINISH_DELAY = 1700;
+    private static final long FINISH_DELAY = 10000;
     private static final long ENTITY_SPAWN_DELAY = 100;
     private int entitySpawnCounter = 0;
     private boolean waitingForEntitySpawn = false;
@@ -467,13 +466,20 @@ public class CurseOfDesertEvent {
                 spawnEntities(ModEntities.SCARAB_BEETLE.get(), 3);
                 break;
             case 2:
+                spawnEntities(ModEntities.SCARAB_BEETLE.get(), 2);
                 spawnEntities(ModEntities.MUMMY.get(), 3);
+                spawnEntities(ModEntities.BITUMEN_MUMMY.get(), 2);
                 break;
             case 3:
-                spawnEntities(ModEntities.MUMMY.get(), 1);
+                spawnEntities(ModEntities.MUMMY.get(), 3);
+                spawnEntities(ModEntities.BITUMEN_MUMMY.get(), 2);
+                spawnEntities(ModEntities.DOG_HEADED_WARRIOR.get(), 3);
                 break;
             case 4:
-                spawnEntities(ModEntities.MUMMY.get(), 1);
+                spawnEntities(ModEntities.MUMMY.get(), 2);
+                spawnEntities(ModEntities.BITUMEN_MUMMY.get(), 2);
+                spawnEntities(ModEntities.DOG_HEADED_WARRIOR.get(), 3);
+                spawnEntities(ModEntities.DOG_HEADED_PRIESTS.get(), 1);
                 break;
             case 5:
                 spawnEntities(ModEntities.MUMMY.get(), 1);
