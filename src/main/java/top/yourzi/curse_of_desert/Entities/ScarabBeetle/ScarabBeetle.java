@@ -69,7 +69,7 @@ public class ScarabBeetle extends Monster {
                 if (event != null && event.isActive()) {
                     BlockPos eventCenter = event.getCenter();
                     // 在事件范围内免疫火焰伤害
-                    if (this.blockPosition().distSqr(eventCenter) <= 2500) { // 50 * 50 = 2500
+                    if (this.blockPosition().distSqr(eventCenter) <= 2500) {
                         return false;
                     }
                 }

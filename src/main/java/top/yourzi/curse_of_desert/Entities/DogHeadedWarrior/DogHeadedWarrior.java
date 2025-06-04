@@ -94,4 +94,9 @@ public class DogHeadedWarrior extends Zombie {
         super.defineSynchedData();
         this.entityData.define(ATTACKING, false);
     }
+
+    @Override
+    public boolean isBaby() {
+        return false;
+    }
 }

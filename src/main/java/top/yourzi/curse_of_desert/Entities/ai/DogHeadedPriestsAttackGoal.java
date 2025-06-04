@@ -47,6 +47,27 @@ public class DogHeadedPriestsAttackGoal extends Goal {
         if (this.targetToHeal != null) {
             this.entity.getLookControl().setLookAt(this.targetToHeal, 30.0F, 30.0F);
         }
+        
+        // 在狗头人祭司自身上方生成附魔粒子圆环
+        if (this.entity.level() instanceof ServerLevel serverLevel) {
+            double priestX = this.entity.getX();
+            double priestY = this.entity.getY() + 2.2D;
+            double priestZ = this.entity.getZ();
+            
+            // 生成圆环状的附魔粒子
+            int particleCount = 32; // 圆环粒子数量
+            double radius = 0.8D; // 圆环半径
+            
+            for (int i = 0; i < particleCount; i++) {
+                double angle = 2 * Math.PI * i / particleCount;
+                double offsetX = Math.cos(angle) * radius;
+                double offsetZ = Math.sin(angle) * radius;
+                
+                serverLevel.sendParticles(ParticleTypes.ENCHANT, 
+                    priestX + offsetX, priestY, priestZ + offsetZ, 
+                    2, 0.0D, 0.0D, 0.01D, 0.05D);
+            }
+        }
     }
 
     @Override

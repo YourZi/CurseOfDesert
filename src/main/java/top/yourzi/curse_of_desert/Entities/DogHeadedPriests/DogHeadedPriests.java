@@ -3,7 +3,6 @@ package top.yourzi.curse_of_desert.Entities.DogHeadedPriests;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.AnimationState;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.Pose;
@@ -80,10 +79,9 @@ public class DogHeadedPriests extends Zombie {
     }
 
     private void setupAnimationStates() {
-        // Attack Animation
         if (this.isAttacking()) {
             if (attackAnimationTimeout <= 0) {
-                attackAnimationTimeout = 20; // Duration of attack animation
+                attackAnimationTimeout = 20;
                 this.attack.start(this.tickCount);
             } else {
                 --this.attackAnimationTimeout;
@@ -153,5 +151,10 @@ public class DogHeadedPriests extends Zombie {
         super.defineSynchedData();
         this.entityData.define(ATTACKING, false);
         this.entityData.define(HEALING, false);
+    }
+
+    @Override
+    public boolean isBaby() {
+        return false;
     }
 }
