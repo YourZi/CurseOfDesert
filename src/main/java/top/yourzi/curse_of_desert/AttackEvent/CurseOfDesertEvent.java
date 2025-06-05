@@ -18,6 +18,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.phys.AABB;
 import top.yourzi.curse_of_desert.init.ModEffect;
 import top.yourzi.curse_of_desert.init.ModEntities;
+import top.yourzi.curse_of_desert.init.ModSounds;
 import top.yourzi.curse_of_desert.init.ModTags;
 
 import java.util.ArrayList;
@@ -117,8 +118,6 @@ public class CurseOfDesertEvent {
     
             if (isActive && currentWave <= 0){
                 startNextWave();
-                // 刚开始第一波时，不要立即检查是否清理完毕
-                // 因为实体还在生成队列中，尚未真正生成
             } else if (isCurrentWaveCleared() && entitySpawnQueue.isEmpty()) {
                 // 只有当实体生成队列为空（所有实体都已生成）且当前波次已清理完毕时，才进入下一波
                 if (currentWave < totalWaves) {
@@ -250,7 +249,7 @@ public class CurseOfDesertEvent {
             }
 
             if (isActive) {
-                entity.addEffect(new MobEffectInstance(ModEffect.PHARAOH_GAZE.get(), 20, effectLevel, false, false));
+                entity.addEffect(new MobEffectInstance(ModEffect.PHARAOH_GAZE.get(), 20, effectLevel, false, true));
             }
         }
     }
@@ -294,6 +293,14 @@ public class CurseOfDesertEvent {
     private void startNextWave() {
         currentWave++;
         maxHealthRecord = 0;
+        
+        // 播放事件开始音乐
+        if (currentWave == 1) {
+            for (ServerPlayer player : players) {
+                player.playSound(ModSounds.EVENT_START_MUSIC.get(), 1.0F, 1.0F);
+            }
+        }
+        
         spawnWaveEntities();
     }
 

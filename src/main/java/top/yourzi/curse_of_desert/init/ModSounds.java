@@ -26,6 +26,9 @@ public class ModSounds {
     public static final RegistryObject<SoundEvent> BOTTLE_BREAK =
             registerSoundEvents("bottle_break");
 
+    public static final RegistryObject<SoundEvent> EVENT_START_MUSIC =
+            registerSoundEvents("event_start_music");
+
 
     private static RegistryObject<SoundEvent> registerSoundEvents(String name) {
         return REGISTRY.register(name, () -> SoundEvent.createVariableRangeEvent(new ResourceLocation(Curseofdesert.MOD_ID, name)));

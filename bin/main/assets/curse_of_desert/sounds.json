@@ -49,5 +49,12 @@
         "curse_of_desert:entity/mummy/mummy_step4",
         "curse_of_desert:entity/mummy/mummy_step5"
       ]
+    },
+    "event_start_music": {
+      "category":"music",
+      "subtitle": "sounds.curse_of_desert.event_start_music",
+      "sounds": [
+        "curse_of_desert:music/curse_of_desert"
+      ]
     }
 }
